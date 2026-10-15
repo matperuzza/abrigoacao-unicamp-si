@@ -2,7 +2,9 @@
 
 Aplicativo mobile acadêmico para integrar a gestão do conhecimento e a sustentabilidade financeira de uma ONG fictícia voltada a projetos de construção e reforma de moradias.
 
-Projeto desenvolvido para uma atividade da disciplina de Sistemas de Informação (SI), do curso de Administração da Unicamp. O nome AbrigoAção, inspirado no nome da pasta do projeto.
+Projeto desenvolvido para uma atividade da disciplina de Sistemas de Informação (SI), do curso de Administração da Unicamp. O nome aprovado é **AbrigoAção**, com identidade visual branca e azul institucional.
+
+**Estado atual:** protótipo visual navegável implementado, revisado tecnicamente e testado no Expo pelo responsável, que informou funcionamento e autorizou a publicação no GitHub. Persistência, autenticação e pagamentos ainda não estão implementados.
 
 ## Contexto e objetivo
 
@@ -36,7 +38,7 @@ A parceria é uma proposta do projeto acadêmico: não há acordo, percentual, b
 
 O acesso público não exige autenticação. A matriz detalhada de permissões internas será definida antes da implementação do backend. Uma seleção de perfil no protótipo será apenas uma simulação de navegação, não um mecanismo de autorização.
 
-## MVP proposto
+## MVP proposto (objetivo das próximas entregas)
 
 A proposta inicial é um protótipo funcional com dados fictícios e interface em português do Brasil. Esse recorte pode ser ajustado pelo responsável pelo projeto conforme os requisitos da disciplina.
 
@@ -74,13 +76,16 @@ Persistência local não oferece colaboração entre celulares. Edição compart
 
 ## Tecnologia e referência
 
-Base tecnológica proposta:
+Base tecnológica implementada:
 
 - React Native e Expo para o aplicativo mobile;
 - TypeScript com tipagem estrita;
 - Expo Router para navegação;
-- persistência local a escolher na tarefa de fundação;
+- ícones Ionicons de `@expo/vector-icons`, com fontes locais;
+- testes de integridade dos dados demonstrativos com o runner do Node.js;
 - Git para versionamento.
+
+Persistência local será escolhida em uma tarefa funcional posterior. A primeira implementação é apenas visual. Versões e decisões estão em [Fundação visual](docs/decisions/001-fundacao-visual.md).
 
 O GasIndex é referência de organização e configuração técnica. O projeto está disponível no diretório irmão `../GasIndex`. Dependências e padrões devem ser avaliados antes do reaproveitamento; funcionalidades de postos, localização, preços e ranking não pertencem a este produto.
 
@@ -110,18 +115,18 @@ docs/
   decisions/                 Registro de decisões técnicas e de produto
 ```
 
-As pastas começam vazias, com arquivos `.gitkeep` para preservação futura no Git. Código específico de um domínio deve permanecer em sua feature; não criar camadas sem necessidade.
+`app/` contém rotas enxutas: a área pública usa `(public)/(tabs)` e a área interna usa `member/(tabs)`. Detalhes e formulários ficam em pilhas fora das abas. Telas, tipos e dados demonstrativos estão em `features/`. Pastas ainda sem implementação mantêm `.gitkeep`.
 
 ## Plano de desenvolvimento
 
-| Etapa | Entrega | Critério de aceite |
+| Etapa | Entrega | Andamento |
 | --- | --- | --- |
-| 1. Estruturação | Escopo, regras e pastas | Documentação coerente com a proposta acadêmica |
-| 2. Experiência | Mapa de telas, jornadas e identidade inicial | Fluxos público e interno definidos com o responsável |
-| 3. Fundação técnica | Expo, navegação, dados fictícios e persistência | Aplicativo abre no celular e verificações configuradas passam |
-| 4. Conhecimento | Integração, playbook, versões e transições | Jornadas internas demonstráveis com alterações persistidas |
-| 5. Sustentabilidade | Projetos públicos, contribuição simulada e parceria | Jornada pública completa e valores claramente contextualizados |
-| 6. Entrega acadêmica | Revisão e roteiro de demonstração | Jornadas verificadas e limitações documentadas |
+| 1. Estruturação | Escopo, regras e pastas | Concluída |
+| 2. Experiência | Mapa de telas, jornadas e identidade inicial | Direção aprovada; teste geral no Expo relatado pelo responsável |
+| 3. Fundação e layout | Expo, navegação, dados fictícios e telas | Verificações técnicas aprovadas; teste geral aceito para publicação |
+| 4. Conhecimento | Playbook, versões, transições e persistência local | Planejada; interface disponível, gravação pendente |
+| 5. Sustentabilidade | Fluxo demonstrativo de contribuição e parceria | Interface disponível; aceite do fluxo pendente |
+| 6. Entrega acadêmica | Revisão e roteiro de demonstração | Pendente |
 
 As etapas são uma sequência de trabalho, não um cronograma com datas. Integrações reais serão planejadas se os requisitos da atividade as exigirem.
 
@@ -133,24 +138,67 @@ As etapas são uma sequência de trabalho, não um cronograma com datas. Integra
 
 O contrato de trabalho dos agentes está em [AGENTS.md](AGENTS.md).
 
-## Estado atual e preparação do ambiente
+## Primeira implementação — protótipo visual
 
-O repositório contém a documentação e a estrutura de pastas. Ainda não há aplicativo, `package.json`, dependências instaladas, backend ou scripts executáveis.
+Entrega e revisão registradas na [Tarefa 001](docs/tasks/001-fundacao-layout-navegavel.md), com roteiro de testes manuais.
 
-A primeira tarefa técnica deverá:
+### Disponível no código
 
-1. Conferir os requisitos atuais de Node.js e npm da versão estável de Expo escolhida.
-2. Inicializar Expo com TypeScript e Expo Router, preservando os arquivos deste projeto.
-3. Registrar versões compatíveis e manter o lockfile do npm.
-4. Configurar scripts de inicialização, lint e checagem de tipos.
-5. Definir persistência local e a organização dos dados demonstrativos.
-6. Verificar a abertura em dispositivo ou emulador e atualizar este README com comandos efetivamente disponíveis.
+- Área pública com Início, Projetos, Apoiar e Sobre.
+- Detalhes dos projetos e apresentação da parceria proposta.
+- Escolha ilustrativa de R$ 20, R$ 50 ou R$ 100 e visualização de resumo mensal sem pagamento.
+- Entrada demonstrativa como voluntário ou coordenação, com perfil mantido somente em memória na área interna.
+- Visão geral, guia, projetos internos e registros fictícios de continuidade.
+- Playbook com busca e filtro em memória, leitura de conteúdo e histórico demonstrativo.
+- Formulários de novo conteúdo, edição e transição; botão Salvar desabilitado e confirmação de descarte de rascunhos alterados.
+- Tratamento de páginas, registros e versões inexistentes.
+- Rolagem, safe area, campos acessíveis e adaptação ao teclado configurados; o relato de teste geral não detalha cada verificação de acessibilidade e layout.
 
-Não execute um gerador sobre esta pasta sem conferir quais arquivos ele substituirá.
+### Limites desta entrega
+
+Não há gravação, sincronização entre dispositivos, login real, permissões de servidor ou cobrança. Os históricos são exemplos estáticos, não versões geradas por edições. Ao sair de um formulário, o rascunho é descartado após confirmação; ao encerrar o aplicativo não há recuperação. Os perfis têm a mesma interface e não concedem privilégios reais.
+
+## Executar e testar
+
+Ambiente utilizado na revisão: **Node.js 24.21.0 e npm 11.19.0**. Use Node.js 24 para reproduzir também os testes com leitura nativa de TypeScript.
+
+```bash
+npm ci
+npm start
+```
+
+Abra o projeto no Expo Go compatível com **SDK 57**, com computador e celular na mesma rede. O terminal apresenta o QR code. A compatibilidade da versão do Expo Go instalada deve ser conferida no dispositivo.
+
+Com emulador/simulador instalado:
+
+```bash
+npm run android
+npm run ios
+```
+
+Verificações:
+
+```bash
+npm run type-check
+npm run lint
+npm test
+npx expo-doctor
+npx expo install --check
+npx expo export --platform android
+npx expo export --platform ios
+```
+
+### Resultado da revisão técnica
+
+- Checagem de tipos e lint: aprovados, sem avisos de lint.
+- Testes: 4 aprovados, cobrindo integridade dos históricos, projetos, registros inexistentes e valores de contribuição. O Node pode emitir aviso de detecção de módulo ao importar os dados TypeScript; isso não representa falha dos testes.
+- Expo Doctor: 21/21 verificações aprovadas; dependências compatíveis segundo `expo install --check`.
+- Bundles Android e iOS: exportados com sucesso. Exportação não equivale a teste em dispositivo nem geração de APK/IPA.
+- Execução no Expo: o responsável informou “testei e funcionou” e autorizou prosseguir com a publicação. Sistema, modelo, versão do Expo Go e resultado individual das jornadas não foram informados; o checklist detalhado permanece como referência na Tarefa 001. Não houve execução manual pelo assistente.
+- `npm audit --omit=dev`: 28 alertas (10 moderados e 18 altos), incluindo dependências transitivas de Expo/Metro e Router. Não foi aplicada a correção forçada, pois propõe versões incompatíveis. Detalhes e acompanhamento na Tarefa 001.
 
 ## Decisões pendentes
 
-- Nome final da ONG e identidade visual.
 - Prazo, rubrica de avaliação e exigência de backend na disciplina.
 - Plataforma prioritária para demonstração: Android ou iOS.
 - Regras detalhadas de edição do playbook e administração de acessos.

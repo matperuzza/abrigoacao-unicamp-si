@@ -182,4 +182,6 @@ Limitações ou bloqueios
 
 ## 13. Próximo passo técnico
 
-A estrutura inicial ainda não contém aplicativo nem dependências. A primeira implementação deve seguir a etapa de fundação do README, após a definição dos fluxos da experiência. Não trate comandos de inicialização ou integrações futuras como se já existissem.
+O protótipo visual está implementado, com verificações técnicas aprovadas e teste geral no Expo relatado pelo responsável, que autorizou a publicação no GitHub. A tarefa `docs/tasks/001-fundacao-layout-navegavel.md` registra o aceite geral e os critérios manuais ainda sem evidências individuais. Consulte o README para o estado atual e os comandos disponíveis. A próxima implementação exige uma nova tarefa delimitada; não inicie persistência, backend ou pagamentos automaticamente.
+
+O nome AbrigoAção e a direção visual branca e azul foram aprovados pelo responsável. Mantenha os tokens compartilhados e a separação entre as rotas públicas e os caminhos internos com prefixo `member/`.
