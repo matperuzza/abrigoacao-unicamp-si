@@ -9,6 +9,6 @@ export function AppTabs({ tabs }: { tabs: Tab[] }) {
     tabBarInactiveTintColor: colors.textSecondary, tabBarHideOnKeyboard: true,
     tabBarStyle: { backgroundColor: colors.background, borderTopColor: colors.border } }}>
     {tabs.map(tab => <Tabs.Screen key={tab.name} name={tab.name} options={{ title: tab.title,
-      tabBarIcon: ({ color, size }) => <Ionicons name={tab.icon} color={color} size={size} /> }} />)}
+      tabBarIcon: ({ color, size }) => <Ionicons name={tab.icon} color={typeof color === 'string' ? color : colors.textSecondary} size={size} /> }} />)}
   </Tabs>;
 }
