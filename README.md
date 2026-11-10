@@ -4,7 +4,7 @@ Aplicativo mobile acadêmico para integrar a gestão do conhecimento e a sustent
 
 Projeto desenvolvido para uma atividade da disciplina de Sistemas de Informação (SI), do curso de Administração da Unicamp. O nome aprovado é **AbrigoAção**, com identidade visual branca e azul institucional.
 
-**Estado atual:** protótipo visual navegável implementado, revisado tecnicamente e testado no Expo pelo responsável, que informou funcionamento e autorizou a publicação no GitHub. Persistência, autenticação e pagamentos ainda não estão implementados.
+**Estado atual:** protótipo visual navegável implementado, revisado tecnicamente e testado no Expo pelo responsável, que informou funcionamento e autorizou a publicação no GitHub. Playbook funcional com persistência local (AsyncStorage) entregue em revisão. Registros de transição, autenticação e pagamentos ainda não estão implementados.
 
 ## Contexto e objetivo
 
@@ -85,7 +85,7 @@ Base tecnológica implementada:
 - testes de integridade dos dados demonstrativos com o runner do Node.js;
 - Git para versionamento.
 
-Persistência local será escolhida em uma tarefa funcional posterior. A primeira implementação é apenas visual. Versões e decisões estão em [Fundação visual](docs/decisions/001-fundacao-visual.md).
+Persistência local implementada com `@react-native-async-storage/async-storage` (Tarefa 002). Versões e decisões estão em [Fundação visual](docs/decisions/001-fundacao-visual.md) e [Tarefa 002](docs/tasks/002-playbook-persistencia-local.md).
 
 O GasIndex é referência de organização e configuração técnica. O projeto está disponível no diretório irmão `../GasIndex`. Dependências e padrões devem ser avaliados antes do reaproveitamento; funcionalidades de postos, localização, preços e ranking não pertencem a este produto.
 
@@ -124,7 +124,7 @@ docs/
 | 1. Estruturação | Escopo, regras e pastas | Concluída |
 | 2. Experiência | Mapa de telas, jornadas e identidade inicial | Direção aprovada; teste geral no Expo relatado pelo responsável |
 | 3. Fundação e layout | Expo, navegação, dados fictícios e telas | Verificações técnicas aprovadas; teste geral aceito para publicação |
-| 4. Conhecimento | Playbook, versões, transições e persistência local | Planejada; interface disponível, gravação pendente |
+| 4. Conhecimento | Playbook, versões, transições e persistência local | **Em revisão** (Tarefa 002); playbook funcional com AsyncStorage, versões preservadas, recuperação ao reabrir |
 | 5. Sustentabilidade | Fluxo demonstrativo de contribuição e parceria | Interface disponível; aceite do fluxo pendente |
 | 6. Entrega acadêmica | Revisão e roteiro de demonstração | Pendente |
 
@@ -157,6 +157,47 @@ Entrega e revisão registradas na [Tarefa 001](docs/tasks/001-fundacao-layout-na
 ### Limites desta entrega
 
 Não há gravação, sincronização entre dispositivos, login real, permissões de servidor ou cobrança. Os históricos são exemplos estáticos, não versões geradas por edições. Ao sair de um formulário, o rascunho é descartado após confirmação; ao encerrar o aplicativo não há recuperação. Os perfis têm a mesma interface e não concedem privilégios reais.
+
+## Segunda implementação — Playbook com persistência local (Tarefa 002)
+
+Entrega e revisão registradas na [Tarefa 002](docs/tasks/002-playbook-persistencia-local.md).
+
+### Disponível no código
+
+- Playbook com 6 procedimentos demonstrativos carregados do armazenamento local.
+- Criação de novo conteúdo com título, categoria, conteúdo e resumo da alteração.
+- Edição de conteúdo existente: título, categoria, conteúdo e resumo; cria nova versão preservando as anteriores.
+- Histórico de versões por documento com navegação para visualizar qualquer versão.
+- Busca por título/conteúdo e filtro por categoria funcionando sobre dados persistidos.
+- Persistência em AsyncStorage: dados sobrevivem a fechamento/reabertura do app.
+- Tratamento de erros de leitura (JSON inválido, schema version, array inválido) sem apagar armazenamento.
+- Estados de loading, erro com botão "Tentar novamente" e conteúdo não encontrado (`MissingRecord`).
+- Formulários com validação, botão Salvar habilitado apenas quando válido, feedback de salvamento.
+- Confirmação de descarte de rascunhos não salvos preservada.
+- Avisos de interface atualizados: alterações salvas localmente, dados não compartilhados entre dispositivos.
+- Perfil demonstrativo (voluntário/coordenação) não apaga dados ao sair.
+
+### Limites desta entrega
+
+- Exclusão de documentos, restauração de versão específica, sincronização multi-dispositivo não implementados.
+- Autenticação real e permissões de servidor não implementadas.
+- Registros de transição de projetos (pendências, aprendizados, responsável) ainda não persistidos.
+- Fluxo de contribuição mensal simulada não finalizado (falta confirmação e resultado).
+- Testes manuais em dispositivo/simulador não executados neste ambiente.
+- `expo-doctor` reporta 3 packages com patch version desatualizado (condição pré-existente).
+- Aviso Node.js `[MODULE_TYPELESS_PACKAGE_JSON]` ao rodar testes — não afeta resultado.
+
+### Verificações técnicas
+
+| Comando | Resultado |
+|---|---|
+| `npm run type-check` | Aprovado |
+| `npm run lint` | Aprovado, 0 erros e 0 avisos |
+| `npm test` | 14 testes aprovados (11 novos de persistência + 3 existentes) |
+| `npx expo-doctor` | 20/21 verificações aprovadas (1 mismatch de patch version pré-existente) |
+| `npx expo install --check` | 3 packages com patch version desatualizado (pré-existente) |
+| `npx expo export --platform android` | Bundle Hermes exportado com sucesso |
+| `npx expo export --platform ios` | Bundle Hermes exportado com sucesso |
 
 ## Executar e testar
 

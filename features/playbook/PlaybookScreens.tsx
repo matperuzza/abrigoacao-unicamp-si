@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { ScreenContainer } from '@/components/ScreenContainer';
 import { Header } from '@/components/Header';
@@ -11,7 +11,8 @@ import { EmptyState } from '@/components/EmptyState';
 import { Notice } from '@/components/Notice';
 import { MissingRecord } from '@/components/MissingRecord';
 import { colors, spacing, typography } from '@/theme';
-import { entries, categories, findEntry, formatDemoDate, type PlaybookVersion } from './data';
+import { categories, findEntry, getAllEntries, formatDemoDate, type PlaybookVersion, type Category, type PlaybookEntry } from '@/services/playbook';
+import { usePermissions } from '@/features/access/DemoAccess';
 
 function VersionContent({ version }: { version: PlaybookVersion }) {
   return <Card><View style={styles.list}>
@@ -20,21 +21,76 @@ function VersionContent({ version }: { version: PlaybookVersion }) {
   </View></Card>;
 }
 
+function LoadingScreen() {
+  return <ScreenContainer>
+    <View style={styles.loading}>
+      <ActivityIndicator size="large" color={colors.primary} />
+      <Text style={{ ...typography.body, color: colors.textSecondary, marginTop: spacing.md }}>Carregando playbook...</Text>
+    </View>
+  </ScreenContainer>;
+}
+
+function ErrorScreen({ message, onRetry }: { message: string; onRetry: () => void }) {
+  return <ScreenContainer>
+    <View style={styles.error}>
+      <Text style={styles.errorTitle}>Não foi possível carregar</Text>
+      <Text style={styles.errorBody}>{message}</Text>
+      <Button title="Tentar novamente" onPress={onRetry} />
+    </View>
+  </ScreenContainer>;
+}
+
 export function PlaybookScreen() {
+  const permissions = usePermissions();
+  const [entries, setEntries] = useState<PlaybookEntry[]>([]);
   const [search, setSearch] = useState('');
-  const [category, setCategory] = useState('Todas');
+  const [category, setCategory] = useState<Category | 'Todas'>('Todas');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let mounted = true;
+    async function load() {
+      try {
+        setLoading(true);
+        const data = await getAllEntries();
+        if (mounted) {
+          setEntries(data);
+          setError(null);
+        }
+      } catch {
+        if (mounted) setError('Erro ao carregar o playbook. Verifique o armazenamento e tente novamente.');
+      } finally {
+        if (mounted) setLoading(false);
+      }
+    }
+    load();
+    return () => { mounted = false; };
+  }, []);
+
+  const retry = () => {
+    setLoading(true);
+    setError(null);
+  };
+
+  if (loading) return <LoadingScreen />;
+  if (error) return <ErrorScreen message={error} onRetry={retry} />;
+
   const normalized = search.trim().toLocaleLowerCase('pt-BR');
   const filtered = entries.filter(entry => (category === 'Todas' || entry.category === category)
     && `${entry.title} ${entry.versions[0]?.content ?? ''}`.toLocaleLowerCase('pt-BR').includes(normalized));
+
   return <ScreenContainer>
     <Header title="Playbook" />
     <View style={styles.list}>
-      <Notice>Conteúdos, autores e versões fictícios. Alterações não são gravadas nesta etapa.</Notice>
-      <Button title="Novo conteúdo (protótipo)" onPress={() => router.push('/member/playbook/new')} />
+      <Notice>Conteúdos, autores e versões fictícios. Alterações são salvas localmente no aparelho.</Notice>
+      {permissions.canWritePlaybook && (
+        <Button title="Novo conteúdo" onPress={() => router.push('/member/playbook/new')} />
+      )}
       <Input label="Buscar" value={search} onChangeText={setSearch} placeholder="Título ou conteúdo" />
       <View style={styles.filters}>
         {['Todas', ...categories].map(item => <Button key={item} title={item} fullWidth={false}
-          variant={category === item ? 'primary' : 'secondary'} selected={category === item} onPress={() => setCategory(item)} />)}
+          variant={category === item ? 'primary' : 'secondary'} selected={category === item} onPress={() => setCategory(item as Category | 'Todas')} />)}
       </View>
       <Text style={styles.meta} accessibilityLiveRegion="polite">{filtered.length} conteúdo(s) encontrado(s)</Text>
       {filtered.map(entry => <Card key={entry.id} onPress={() => router.push(`/member/playbook/${entry.id}`)} accessibilityLabel={`Ler ${entry.title}`}>
@@ -50,16 +106,49 @@ export function PlaybookScreen() {
 }
 
 export function PlaybookDetailScreen() {
+  const permissions = usePermissions();
   const { id } = useLocalSearchParams<{ id: string }>();
-  const entry = findEntry(id);
-  const current = entry?.versions[0];
-  if (!entry || !current) return <MissingRecord />;
+  const [entry, setEntry] = useState<PlaybookEntry | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let mounted = true;
+    async function load() {
+      try {
+        setLoading(true);
+        const data = await findEntry(id);
+        if (mounted) {
+          setEntry(data ?? null);
+          setError(null);
+        }
+      } catch {
+        if (mounted) setError('Erro ao carregar o conteúdo.');
+      } finally {
+        if (mounted) setLoading(false);
+      }
+    }
+    load();
+    return () => { mounted = false; };
+  }, [id]);
+
+  const retry = () => { setLoading(true); setError(null); };
+
+  if (loading) return <LoadingScreen />;
+  if (error) return <ErrorScreen message={error} onRetry={retry} />;
+  if (!entry || !entry.versions[0]) return <MissingRecord />;
+
+  const current = entry.versions[0];
+  const back = () => router.canGoBack() ? router.back() : router.replace('/member/playbook');
+
   return <ScreenContainer>
-    <Header title={entry.title} showBack onBack={() => router.canGoBack() ? router.back() : router.replace('/member/playbook')} />
+    <Header title={entry.title} showBack onBack={back} />
     <View style={styles.list}>
       <Badge>{entry.category}</Badge>
       <VersionContent version={current} />
-      <Button title="Editar (protótipo)" variant="secondary" onPress={() => router.push(`/member/playbook/${entry.id}/edit`)} />
+      {permissions.canWritePlaybook && (
+        <Button title="Editar" variant="secondary" onPress={() => router.push(`/member/playbook/${entry.id}/edit`)} />
+      )}
       <Button title="Histórico de versões" onPress={() => router.push(`/member/playbook/${entry.id}/history`)} />
     </View>
   </ScreenContainer>;
@@ -67,13 +156,43 @@ export function PlaybookDetailScreen() {
 
 export function PlaybookHistoryScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const entry = findEntry(id);
+  const [entry, setEntry] = useState<PlaybookEntry | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let mounted = true;
+    async function load() {
+      try {
+        setLoading(true);
+        const data = await findEntry(id);
+        if (mounted) {
+          setEntry(data ?? null);
+          setError(null);
+        }
+      } catch {
+        if (mounted) setError('Erro ao carregar o histórico.');
+      } finally {
+        if (mounted) setLoading(false);
+      }
+    }
+    load();
+    return () => { mounted = false; };
+  }, [id]);
+
+  const retry = () => { setLoading(true); setError(null); };
+
+  if (loading) return <LoadingScreen />;
+  if (error) return <ErrorScreen message={error} onRetry={retry} />;
   if (!entry) return <MissingRecord />;
+
+  const back = () => router.canGoBack() ? router.back() : router.replace('/member/playbook');
+
   return <ScreenContainer>
-    <Header title="Histórico de versões" showBack onBack={() => router.canGoBack() ? router.back() : router.replace('/member/playbook')} />
+    <Header title="Histórico de versões" showBack onBack={back} />
     <View style={styles.list}>
       <Text style={styles.title}>{entry.title}</Text>
-      <Notice>Histórico fictício, somente para leitura.</Notice>
+      <Notice>Histórico salvo localmente. Versões anteriores são preservadas.</Notice>
       {entry.versions.map(version => <Card key={version.version}
         onPress={() => router.push(`/member/playbook/${entry.id}/version/${version.version}`)}>
         <View style={styles.list}>
@@ -88,15 +207,49 @@ export function PlaybookHistoryScreen() {
 
 export function PlaybookVersionScreen() {
   const { id, version } = useLocalSearchParams<{ id: string; version: string }>();
-  const entry = findEntry(id);
-  const selected = entry?.versions.find(item => String(item.version) === version);
-  if (!entry || !selected) return <MissingRecord title="Versão não encontrada" />;
+  const [entry, setEntry] = useState<PlaybookEntry | null>(null);
+  const [selectedVersion, setSelectedVersion] = useState<PlaybookVersion | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let mounted = true;
+    async function load() {
+      try {
+        setLoading(true);
+        const data = await findEntry(id);
+        if (mounted) {
+          setEntry(data ?? null);
+          if (data) {
+            const found = data.versions.find((item: PlaybookVersion) => String(item.version) === version);
+            setSelectedVersion(found ?? null);
+          }
+          setError(null);
+        }
+      } catch {
+        if (mounted) setError('Erro ao carregar a versão.');
+      } finally {
+        if (mounted) setLoading(false);
+      }
+    }
+    load();
+    return () => { mounted = false; };
+  }, [id, version]);
+
+  const retry = () => { setLoading(true); setError(null); };
+
+  if (loading) return <LoadingScreen />;
+  if (error) return <ErrorScreen message={error} onRetry={retry} />;
+  if (!entry || !selectedVersion) return <MissingRecord title="Versão não encontrada" />;
+
+  const back = () => router.canGoBack() ? router.back() : router.replace('/member/playbook');
+
   return <ScreenContainer>
-    <Header title={`Versão ${selected.version}`} showBack onBack={() => router.canGoBack() ? router.back() : router.replace('/member/playbook')} />
+    <Header title={`Versão ${selectedVersion.version}`} showBack onBack={back} />
     <View style={styles.list}>
       <Text style={styles.title}>{entry.title}</Text>
-      <Notice>Versão demonstrativa somente para leitura.</Notice>
-      <VersionContent version={selected} />
+      <Notice>Versão salva localmente.</Notice>
+      <VersionContent version={selectedVersion} />
     </View>
   </ScreenContainer>;
 }
@@ -107,4 +260,8 @@ const styles = StyleSheet.create({
   title: { ...typography.h3, color: colors.text },
   body: { ...typography.body, color: colors.textSecondary, lineHeight: 24 },
   meta: { ...typography.bodySmall, color: colors.textSecondary, lineHeight: 21 },
+  loading: { alignItems: 'center', justifyContent: 'center', flex: 1, padding: spacing.xl },
+  error: { alignItems: 'center', padding: spacing.xl, gap: spacing.md },
+  errorTitle: { ...typography.h3, color: colors.text },
+  errorBody: { ...typography.body, color: colors.textSecondary, textAlign: 'center' },
 });

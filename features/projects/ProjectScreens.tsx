@@ -8,6 +8,7 @@ import { MissingRecord } from '@/components/MissingRecord';
 import { colors, spacing, typography } from '@/theme';
 import { projects, findProject } from './data';
 import { ProjectCard, ProjectProgress } from './ProjectCard';
+import { usePermissions } from '@/features/access/DemoAccess';
 
 export function ProjectsScreen({ internal = false }: { internal?: boolean }) {
   return <ScreenContainer>
@@ -21,6 +22,7 @@ export function ProjectsScreen({ internal = false }: { internal?: boolean }) {
 }
 
 export function ProjectDetailScreen({ internal = false }: { internal?: boolean }) {
+  const permissions = usePermissions();
   const { id } = useLocalSearchParams<{ id: string }>();
   const project = findProject(id);
   if (!project) return <MissingRecord title="Projeto não encontrado" />;
@@ -41,7 +43,9 @@ export function ProjectDetailScreen({ internal = false }: { internal?: boolean }
         <Text style={styles.title}>Pendências</Text>
         {project.pending.length ? project.pending.map(item => <Text key={item} style={styles.body}>• {item}</Text>) : <Text style={styles.body}>Sem pendências no momento.</Text>}
         <Text style={styles.title}>Registro de transição</Text><Text style={styles.body}>{project.transition || 'Nenhuma transição registrada.'}</Text>
-        <Button title="Registrar transição (protótipo)" variant="secondary" onPress={() => router.push(`/member/projects/${project.id}/transition`)} />
+        {permissions.canWriteTransitions && (
+          <Button title="Registrar transição" variant="secondary" onPress={() => router.push(`/member/projects/${project.id}/transition`)} />
+        )}
       </> : <Button title="Conhecer o apoio mensal" onPress={() => router.push('/donations')} />}
     </View>
   </ScreenContainer>;

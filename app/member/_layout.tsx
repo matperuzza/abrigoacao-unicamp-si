@@ -1,5 +1,5 @@
 import { Stack } from 'expo-router/stack';
-import { DemoAccessProvider, useDemoAccess } from '@/features/access/DemoAccess';
+import { DemoAccessProvider, useDemoAccess, usePermissions } from '@/features/access/DemoAccess';
 
 export default function MemberLayout() {
   return <DemoAccessProvider><MemberStack /></DemoAccessProvider>;
@@ -7,15 +7,16 @@ export default function MemberLayout() {
 
 function MemberStack() {
   const { profile } = useDemoAccess();
+  const permissions = usePermissions();
   return <Stack screenOptions={{ headerShown: false, headerBackButtonMenuEnabled: false }}>
     <Stack.Screen name="enter" />
     <Stack.Protected guard={profile !== null}>
       <Stack.Screen name="(tabs)" />
       <Stack.Screen name="projects/[id]" />
-      <Stack.Screen name="projects/[id]/transition" />
-      <Stack.Screen name="playbook/new" />
+      {permissions.canWriteTransitions && <Stack.Screen name="projects/[id]/transition" />}
+      {permissions.canWritePlaybook && <Stack.Screen name="playbook/new" />}
       <Stack.Screen name="playbook/[id]" />
-      <Stack.Screen name="playbook/[id]/edit" />
+      {permissions.canWritePlaybook && <Stack.Screen name="playbook/[id]/edit" />}
       <Stack.Screen name="playbook/[id]/history" />
       <Stack.Screen name="playbook/[id]/version/[version]" />
     </Stack.Protected>
