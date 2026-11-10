@@ -57,8 +57,17 @@ export function useDemoAccess() {
 }
 
 export function usePermissions() {
-  const { permissions } = useDemoAccess();
-  return permissions ?? {
+  const value = useContext(Context);
+  if (!value) {
+    return {
+      canReadPlaybook: false,
+      canWritePlaybook: false,
+      canReadProjects: false,
+      canWriteTransitions: false,
+      canAdminister: false,
+    };
+  }
+  return value.permissions ?? {
     canReadPlaybook: false,
     canWritePlaybook: false,
     canReadProjects: false,

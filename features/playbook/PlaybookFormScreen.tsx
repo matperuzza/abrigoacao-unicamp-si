@@ -10,15 +10,20 @@ import { MissingRecord } from '@/components/MissingRecord';
 import { useDiscardDraft } from '@/hooks/useDiscardDraft';
 import { colors, spacing, typography } from '@/theme';
 import { categories, findEntry, createEntry, updateEntry, type PlaybookEntry, type Category } from '@/services/playbook';
-import { useDemoAccess } from '@/features/access/DemoAccess';
+import { useDemoAccess, usePermissions } from '@/features/access/DemoAccess';
 
 export default function PlaybookFormScreen({ create = false }: { create?: boolean }) {
+  const permissions = usePermissions();
   const { id } = useLocalSearchParams<{ id: string }>();
   const [entry, setEntry] = useState<PlaybookEntry | undefined>(create ? undefined : undefined);
   const [loading, setLoading] = useState(!create);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!permissions.canWritePlaybook) {
+      router.replace('/member/playbook');
+      return;
+    }
     if (create) return;
     let mounted = true;
     async function load() {
@@ -37,7 +42,7 @@ export default function PlaybookFormScreen({ create = false }: { create?: boolea
     }
     load();
     return () => { mounted = false; };
-  }, [create, id]);
+  }, [create, id, permissions.canWritePlaybook]);
 
   const retry = () => { setLoading(true); setError(null); };
 
@@ -59,6 +64,7 @@ export default function PlaybookFormScreen({ create = false }: { create?: boolea
     </ScreenContainer>;
   }
   if (!create && !entry) return <MissingRecord />;
+  if (!permissions.canWritePlaybook) return null;
 
   return <PlaybookForm key={entry?.id ?? 'new'} entry={entry} create={create} />;
 }

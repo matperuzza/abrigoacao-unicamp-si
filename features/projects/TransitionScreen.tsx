@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { ScreenContainer } from '@/components/ScreenContainer';
@@ -10,15 +10,26 @@ import { MissingRecord } from '@/components/MissingRecord';
 import { useDiscardDraft } from '@/hooks/useDiscardDraft';
 import { spacing } from '@/theme';
 import { findProject } from './data';
+import { usePermissions } from '@/features/access/DemoAccess';
 
 export default function TransitionScreen() {
+  const permissions = usePermissions();
   const { id } = useLocalSearchParams<{ id: string }>();
   const project = findProject(id);
   const [responsible, setResponsible] = useState('');
   const [pending, setPending] = useState('');
   const [learnings, setLearnings] = useState('');
   useDiscardDraft(!!(responsible || pending || learnings));
+
+  useEffect(() => {
+    if (!permissions.canWriteTransitions) {
+      router.replace('/member/projects');
+    }
+  }, [permissions.canWriteTransitions]);
+
   if (!project) return <MissingRecord title="Projeto não encontrado" />;
+  if (!permissions.canWriteTransitions) return null;
+
   const back = () => router.canGoBack() ? router.back() : router.replace('/member/projects');
   return <ScreenContainer>
     <Header title="Registro de transição" showBack onBack={back} />
