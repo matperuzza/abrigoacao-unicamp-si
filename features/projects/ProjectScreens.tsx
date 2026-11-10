@@ -9,6 +9,7 @@ import { colors, spacing, typography } from '@/theme';
 import { projects, findProject } from './data';
 import { ProjectCard, ProjectProgress } from './ProjectCard';
 import { usePermissions } from '@/features/access/DemoAccess';
+import { TransitionHistoryScreen } from './TransitionHistoryScreen';
 
 export function ProjectsScreen({ internal = false }: { internal?: boolean }) {
   return <ScreenContainer>
@@ -42,7 +43,9 @@ export function ProjectDetailScreen({ internal = false }: { internal?: boolean }
         {project.learnings.length ? project.learnings.map(item => <Text key={item} style={styles.body}>• {item}</Text>) : <Text style={styles.body}>Nenhum aprendizado registrado.</Text>}
         <Text style={styles.title}>Pendências</Text>
         {project.pending.length ? project.pending.map(item => <Text key={item} style={styles.body}>• {item}</Text>) : <Text style={styles.body}>Sem pendências no momento.</Text>}
-        <Text style={styles.title}>Registro de transição</Text><Text style={styles.body}>{project.transition || 'Nenhuma transição registrada.'}</Text>
+        <Text style={styles.title}>Registro de transição (contexto inicial)</Text><Text style={styles.body}>{project.transition || 'Nenhuma transição registrada.'}</Text>
+        <Text style={styles.title}>Histórico de transições</Text>
+        <TransitionHistoryScreen />
         {permissions.canWriteTransitions && (
           <Button title="Registrar transição" variant="secondary" onPress={() => router.push(`/member/projects/${project.id}/transition`)} />
         )}

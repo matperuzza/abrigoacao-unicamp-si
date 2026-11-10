@@ -4,7 +4,7 @@ Aplicativo mobile acadêmico para integrar a gestão do conhecimento e a sustent
 
 Projeto desenvolvido para uma atividade da disciplina de Sistemas de Informação (SI), do curso de Administração da Unicamp. O nome aprovado é **AbrigoAção**, com identidade visual branca e azul institucional.
 
-**Estado atual:** protótipo visual navegável implementado, revisado tecnicamente e testado no Expo pelo responsável, que informou funcionamento e autorizou a publicação no GitHub. Playbook funcional com persistência local (AsyncStorage) entregue em revisão. Registros de transição, autenticação e pagamentos ainda não estão implementados.
+**Estado atual:** protótipo visual navegável implementado, revisado tecnicamente e testado no Expo pelo responsável, que informou funcionamento e autorizou a publicação no GitHub. Playbook funcional com persistência local (AsyncStorage) entregue em revisão. Registros de transição persistentes (Tarefa 003) entregues em revisão. Fluxo de contribuição simulada, autenticação e pagamentos ainda não estão implementados.
 
 ## Contexto e objetivo
 
@@ -85,7 +85,7 @@ Base tecnológica implementada:
 - testes de integridade dos dados demonstrativos com o runner do Node.js;
 - Git para versionamento.
 
-Persistência local implementada com `@react-native-async-storage/async-storage` (Tarefa 002). Versões e decisões estão em [Fundação visual](docs/decisions/001-fundacao-visual.md) e [Tarefa 002](docs/tasks/002-playbook-persistencia-local.md).
+Persistência local implementada com `@react-native-async-storage/async-storage` (Tarefas 002 e 003). Versões e decisões estão em [Fundação visual](docs/decisions/001-fundacao-visual.md), [Tarefa 002](docs/tasks/002-playbook-persistencia-local.md) e [Tarefa 003](docs/tasks/003-registros-transicao-persistentes.md).
 
 O GasIndex é referência de organização e configuração técnica. O projeto está disponível no diretório irmão `../GasIndex`. Dependências e padrões devem ser avaliados antes do reaproveitamento; funcionalidades de postos, localização, preços e ranking não pertencem a este produto.
 
@@ -124,7 +124,7 @@ docs/
 | 1. Estruturação | Escopo, regras e pastas | Concluída |
 | 2. Experiência | Mapa de telas, jornadas e identidade inicial | Direção aprovada; teste geral no Expo relatado pelo responsável |
 | 3. Fundação e layout | Expo, navegação, dados fictícios e telas | Verificações técnicas aprovadas; teste geral aceito para publicação |
-| 4. Conhecimento | Playbook, versões, transições e persistência local | **Em revisão** (Tarefa 002); playbook funcional com AsyncStorage, versões preservadas, recuperação ao reabrir |
+| 4. Conhecimento | Playbook, versões, transições e persistência local | **Em revisão** (Tarefas 002 e 003); playbook funcional + transições persistentes |
 | 5. Sustentabilidade | Fluxo demonstrativo de contribuição e parceria | Interface disponível; aceite do fluxo pendente |
 | 6. Entrega acadêmica | Revisão e roteiro de demonstração | Pendente |
 
@@ -193,9 +193,44 @@ Entrega e revisão registradas na [Tarefa 002](docs/tasks/002-playbook-persisten
 |---|---|
 | `npm run type-check` | Aprovado |
 | `npm run lint` | Aprovado, 0 erros e 0 avisos |
-| `npm test` | 14 testes aprovados (11 novos de persistência + 3 existentes) |
-| `npx expo-doctor` | 20/21 verificações aprovadas (1 mismatch de patch version pré-existente) |
-| `npx expo install --check` | 3 packages com patch version desatualizado (pré-existente) |
+| `npm test` | 31 testes aprovados (14 playbook/projetos/doações + 17 transições) |
+| `npx expo-doctor` | 20/20 verificações aprovadas |
+| `npx expo install --check` | Dependências compatíveis |
+| `npx expo export --platform android` | Bundle Hermes exportado com sucesso |
+| `npx expo export --platform ios` | Bundle Hermes exportado com sucesso |
+
+## Terceira implementação — Registros de transição persistentes (Tarefa 003)
+
+Entrega e revisão registradas na [Tarefa 003](docs/tasks/003-registros-transicao-persistentes.md).
+
+### Disponível no código
+
+- Modelo de transição com id, projectId, responsible, pending, learnings, author, createdAt
+- Persistência independente em AsyncStorage (chave `abrigoacao.transitions.v1`)
+- Formulário funcional: validação, autor por perfil, feedback de salvamento, confirmação de descarte
+- Histórico embutido no detalhe interno do projeto com loading/error/retry
+- Ordenação decrescente por data, badge "Mais recente", data/hora formatada em pt-BR
+- Contexto inicial de transição preservado como "Registro de transição (contexto inicial)"
+- Botão "Registrar transição" condicionado a permissão `canWriteTransitions`
+- Perfil demonstrativo reflete autoria: "Voluntário (demo)" ou "Coordenação (demo)"
+- Dados locais não compartilhados entre dispositivos
+
+### Limites desta entrega
+
+- Edição/exclusão de transições, sincronização, backend não implementados
+- Fluxo de contribuição mensal simulada não finalizado (falta confirmação e resultado)
+- Testes manuais em dispositivo/simulador não executados neste ambiente
+- Aviso Node.js `[MODULE_TYPELESS_PACKAGE_JSON]` ao rodar testes — não afeta resultado
+
+### Verificações técnicas
+
+| Comando | Resultado |
+|---|---|
+| `npm run type-check` | Aprovado |
+| `npm run lint` | Aprovado, 0 erros e 0 avisos |
+| `npm test` | 31 testes aprovados (14 playbook/projetos/doações + 17 transições) |
+| `npx expo-doctor` | 20/20 verificações aprovadas |
+| `npx expo install --check` | Dependências compatíveis |
 | `npx expo export --platform android` | Bundle Hermes exportado com sucesso |
 | `npx expo export --platform ios` | Bundle Hermes exportado com sucesso |
 
@@ -208,7 +243,7 @@ npm ci
 npm start
 ```
 
-Abra o projeto no Expo Go compatível com **SDK 57**, com computador e celular na mesma rede. O terminal apresenta o QR code. A compatibilidade da versão do Expo Go instalada deve ser conferida no dispositivo.
+Abra o projeto no Expo Go compatível com **SDK 58**, com computador e celular na mesma rede. O terminal apresenta o QR code. A compatibilidade da versão do Expo Go instalada deve ser conferida no dispositivo.
 
 Com emulador/simulador instalado:
 
