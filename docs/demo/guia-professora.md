@@ -16,53 +16,135 @@ O **AbrigoAção** é um protótipo acadêmico de uma ONG fictícia voltada à c
 
 ## 1. Como abrir o aplicativo no celular
 
-O aplicativo é executado pelo **Expo Go**, um aplicativo usado para abrir projetos em desenvolvimento no celular. A página do GitHub reúne o código e estas instruções; para usar o protótipo, é necessário que um computador esteja executando o projeto.
+O aplicativo é executado pelo **Expo Go**, um aplicativo gratuito usado para abrir projetos em desenvolvimento no celular. O computador executa o projeto e o celular abre a interface. Os arquivos baixados do GitHub ficam no computador; não é necessário copiá-los para o celular.
 
-### Durante a apresentação, com o computador do grupo
+**Você vai precisar de:** um computador Windows ou Mac, um celular Android ou iPhone e conexão à internet. Durante o uso, conecte computador e celular à mesma rede Wi-Fi.
 
-1. Instale o **Expo Go** no celular, pela Google Play (Android) ou App Store (iPhone).
-2. Peça ao grupo para iniciar o projeto no computador e mostrar o **QR code** gerado pelo Expo.
-3. Conecte o celular à **mesma rede Wi-Fi do computador**.
-4. Leia o QR code:
-   - **Android:** abra o Expo Go e use a opção de leitura de QR code.
-   - **iPhone:** use a câmera do celular e toque no aviso para abrir no Expo Go.
-5. Aguarde o carregamento. A primeira tela será a área pública do **AbrigoAção**.
+### Passo 1 — Baixar o Expo Go no celular
 
-**Compatibilidade:** o projeto usa **Expo SDK 58**. O Expo Go instalado precisa ser compatível com essa versão. Caso apareça um aviso de incompatibilidade, solicite apoio ao grupo antes de continuar.
+**No Android:**
 
-O computador deve permanecer ligado e com o servidor Expo em execução durante o acesso. O QR code é gerado ao iniciar o projeto; não há um QR code permanente neste guia.
+1. Abra a **Google Play Store** no celular.
+2. Pesquise por **Expo Go** ou abra o [Expo Go na Google Play](https://play.google.com/store/apps/details?id=host.exp.exponent).
+3. Confira o nome **Expo Go**, publicado pela **Expo**.
+4. Toque em **Instalar** e aguarde.
+5. Toque em **Abrir**. Se o aplicativo solicitar permissão para usar a câmera ao ler o QR code, permita.
 
-### Para executar de forma independente no próprio computador
+**No iPhone:**
 
-Esta preparação pode ser feita pela professora ou por alguém do grupo:
+1. Abra a **App Store** no celular.
+2. Pesquise por **Expo Go** ou abra o [Expo Go na App Store](https://apps.apple.com/app/expo-go/id982107779).
+3. Confira o nome **Expo Go**, publicado pela **Expo**.
+4. Toque em **Obter** e confirme a instalação, se solicitado.
+5. Aguarde a instalação e abra o aplicativo.
 
-1. Instale **Git** e **Node.js 24**, que inclui o npm.
-2. Abra um terminal na pasta em que deseja baixar o projeto.
-3. Baixe o repositório:
+**Compatibilidade:** este projeto usa **Expo SDK 58**. O Expo Go instalado precisa ser compatível com essa versão. Se aparecer um aviso de versão incompatível ao abrir o projeto, confira as opções oficiais em [expo.dev/go](https://expo.dev/go) e solicite apoio ao grupo. A instalação pela loja, por si só, não comprova essa compatibilidade.
 
-   ```bash
-   git clone https://github.com/matperuzza/abrigoacao-unicamp-si.git
-   ```
+### Passo 2 — Instalar o Node.js no computador
 
-4. Entre na pasta baixada:
+O Node.js permite executar o projeto. Sua instalação também inclui o **npm**, ferramenta que baixa os componentes necessários ao aplicativo.
 
-   ```bash
-   cd abrigoacao-unicamp-si
-   ```
+1. No computador, acesse o [site oficial do Node.js](https://nodejs.org/en/download).
+2. Selecione a versão **24.x** e o sistema do computador: **Windows** ou **macOS**.
+3. Baixe o instalador correspondente ao computador (`.msi` no Windows ou `.pkg` no Mac).
+4. Abra o arquivo baixado e siga o assistente de instalação, mantendo as opções padrão, inclusive a instalação do npm.
+5. Quando terminar, feche e reabra qualquer terminal que já estivesse aberto para que ele reconheça a instalação.
 
-5. Instale as dependências:
+### Passo 3 — Baixar o repositório do GitHub
+
+O repositório é a pasta com o código e os arquivos do aplicativo. Este caminho usa o download em ZIP e **não exige instalar Git**.
+
+1. No navegador do computador, abra o [repositório do AbrigoAção](https://github.com/matperuzza/abrigoacao-unicamp-si).
+2. Na página principal do repositório, acima da lista de arquivos, clique no botão verde **Code**.
+3. No menu aberto, clique em **Download ZIP**.
+4. Aguarde o download do arquivo `abrigoacao-unicamp-si-main.zip`, normalmente salvo em **Downloads**.
+5. Extraia o arquivo:
+   - **Windows:** clique com o botão direito no ZIP, escolha **Extrair Tudo…** e depois **Extrair**.
+   - **Mac:** dê dois cliques no ZIP; o sistema criará a pasta extraída.
+6. Abra a pasta extraída `abrigoacao-unicamp-si-main`.
+7. Confira se ela contém os arquivos **`package.json`**, **`package-lock.json`** e **`README.md`**, além das pastas **`app`** e **`features`**. Se houver outra pasta com o mesmo nome dentro dela, entre nessa pasta até encontrar esses arquivos.
+
+**Importante:** faça os próximos passos na pasta extraída, não dentro do arquivo ZIP. Guarde a pasta para poder abrir o aplicativo novamente depois.
+
+### Passo 4 — Abrir o terminal na pasta do projeto
+
+O terminal é a janela em que serão digitados os comandos para instalar e iniciar o aplicativo.
+
+**No Windows:**
+
+1. Abra no **Explorador de Arquivos** a pasta do projeto que contém `package.json`.
+2. Clique na barra de endereço da janela, onde aparece o caminho da pasta.
+3. Digite `cmd` nessa barra e pressione **Enter**.
+4. Uma janela do **Prompt de Comando** será aberta já na pasta do projeto.
+
+**No Mac:**
+
+1. Abra a pasta do projeto no **Finder**.
+2. Pressione **Command + Espaço**, digite `Terminal` e pressione **Enter**.
+3. Na janela do Terminal, digite `cd` seguido de um espaço, sem pressionar Enter ainda.
+4. Arraste a pasta do projeto do Finder para a janela do Terminal. O caminho será preenchido automaticamente após `cd `.
+5. Pressione **Enter** para entrar nessa pasta.
+
+**Nos dois sistemas**, confira a instalação digitando um comando por vez e pressionando **Enter** após cada um:
+
+```bash
+node --version
+```
+
+O resultado deve começar com **`v24.`**.
+
+```bash
+npm --version
+```
+
+O segundo comando deve mostrar um número de versão do npm. Se aparecer que o comando não foi encontrado ou não é reconhecido, feche o terminal, confira a instalação do Node.js e abra o terminal novamente.
+
+### Passo 5 — Instalar os componentes do aplicativo
+
+1. No terminal aberto na pasta do projeto, digite:
 
    ```bash
    npm ci
    ```
 
-6. Inicie o projeto:
+2. Pressione **Enter** e aguarde. Essa etapa precisa de internet e pode levar alguns minutos.
+3. Durante a instalação, o terminal exibirá mensagens. Aguarde até ele terminar e permitir digitar outro comando.
+4. Se a instalação terminar com erro, anote ou fotografe a mensagem e envie ao grupo antes de continuar.
+
+Esse comando baixa as dependências e cria a pasta `node_modules`. Não é necessário abrir ou executar individualmente os arquivos do projeto.
+
+### Passo 6 — Iniciar o projeto e gerar o QR code
+
+1. No mesmo terminal, digite:
 
    ```bash
    npm start
    ```
 
-7. Mantenha o terminal aberto e siga os passos de Wi-Fi e leitura do QR code descritos acima.
+2. Pressione **Enter**.
+3. Aguarde o Expo iniciar e mostrar um **QR code** na janela do terminal.
+4. Deixe essa janela aberta. Ela mantém o projeto disponível para o celular.
+
+### Passo 7 — Abrir o AbrigoAção no Expo Go
+
+1. Confira se computador e celular estão conectados à **mesma rede Wi-Fi**.
+2. Com o QR code visível no computador:
+   - **Android:** abra o **Expo Go**, toque na opção de escanear QR code e aponte a câmera para o código.
+   - **iPhone:** abra o aplicativo **Câmera**, aponte para o QR code e toque no aviso para abrir o projeto no **Expo Go**. Se o sistema pedir permissão de acesso à rede local, permita.
+3. Aguarde o carregamento. Na primeira abertura, o computador também precisa preparar os arquivos do aplicativo, o que pode levar um pouco mais de tempo.
+4. Quando aparecer a tela **AbrigoAção**, o aplicativo está aberto. A área pública já pode ser utilizada sem login.
+5. Para acessar as funções internas, siga a [seção 2: acesso da professora](#2-como-entrar-com-o-acesso-da-professora).
+
+O QR code é gerado ao iniciar o projeto; não há um QR code permanente neste guia. Mantenha o computador ligado, conectado à rede e com o terminal executando o Expo durante o uso.
+
+### Passo 8 — Encerrar e abrir novamente em outro momento
+
+1. Quando terminar, volte ao terminal do computador e pressione **Ctrl + C** para encerrar o servidor. No Mac, também é **Control + C**, não Command + C.
+2. Para usar novamente, abra o terminal na mesma pasta extraída do projeto, conforme o passo 4.
+3. Execute **`npm start`** e leia o novo QR code com o celular.
+4. Não é necessário reinstalar o Node.js, o Expo Go ou executar `npm ci` a cada abertura. A instalação das dependências é necessária no primeiro preparo ou quando o projeto exigir atualização delas.
+
+**Durante a apresentação com o computador do grupo:** a professora pode fazer apenas o passo 1, conectar-se à mesma rede do grupo e seguir o passo 7 com o QR code fornecido pela equipe. Os passos de preparação do computador ficam a cargo do grupo nesse caso.
 
 ## 2. Como entrar com o acesso da professora
 
@@ -238,6 +320,10 @@ O botão **Voltar à área pública** permite retomar a apresentação. Para enc
 | Situação | Como proceder |
 | --- | --- |
 | O QR code não abre o projeto | Confira se computador e celular estão na mesma rede, se o terminal continua executando o Expo e se o Expo Go é compatível com SDK 58. Peça ajuda ao grupo se a rede bloquear a conexão. |
+| Não encontro o botão Code para baixar | Abra a página principal do repositório pelo link do passo 3; o botão fica acima da lista de arquivos. |
+| O terminal informa que não encontrou package.json ou package-lock.json | Confira se extraiu o ZIP e abriu o terminal na pasta que contém esses arquivos, conforme os passos 3 e 4. |
+| node ou npm não é reconhecido | Instale o Node.js 24 e depois feche e reabra o terminal. |
+| A instalação com npm ci terminou com erro | Confira a conexão com a internet e envie a mensagem ao grupo. Aguarde a instalação terminar com sucesso antes de executar npm start. |
 | O login não é aceito | Use `Betania` ou `v-Betania`, sem sobrenome, e senha `0000` com quatro zeros. |
 | Não encontro Área dos membros | Role a aba Início até o final ou procure o botão na aba Sobre. |
 | A busca não mostra resultados | Apague o termo e selecione Todas; depois tente novamente com uma palavra do conteúdo. |
