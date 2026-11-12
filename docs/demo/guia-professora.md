@@ -17,11 +17,13 @@ O **AbrigoAção** é um protótipo acadêmico de uma ONG fictícia voltada à c
 
 ## Acesso pelo link no navegador
 
-A versão web está preparada para hospedagem na **Vercel**. O endereço público ainda depende da conclusão do deploy; o grupo deve compartilhar o link final após confirmar que ele abre corretamente.
+A versão web está publicada na **Vercel**:
 
-Quando receber o link:
+### [Clique aqui para abrir o AbrigoAção](https://abrigoacao-unicamp-si.vercel.app)
 
-1. Abra o endereço no navegador do computador ou do celular.
+Para acessar:
+
+1. Clique no link acima no navegador do computador ou do celular.
 2. Aguarde aparecer **AbrigoAção**. Para esse acesso, não é necessário baixar o repositório, instalar Node.js ou usar Expo Go.
 3. Explore a área pública ou toque em **Área dos membros** para entrar com `Betania` e senha `0000`, conforme a seção 2.
 4. Utilize as funcionalidades descritas nas seções 3 e 4; no computador, clique nos mesmos botões indicados para toque no celular.
@@ -358,6 +360,6 @@ O botão **Voltar à área pública** permite retomar a apresentação. Para enc
 - Conteúdos e transições salvos permanecem **somente no aparelho utilizado**, inclusive ao trocar de conta. Desinstalar ou limpar os dados do aplicativo pode remover esses registros.
 - Na versão web, a persistência também depende do **navegador e do endereço acessado**; os dados não são sincronizados entre o link web, outros domínios e o Expo Go.
 - Rascunhos não salvos e a confirmação da simulação não têm a mesma persistência dos conteúdos salvos.
-- Este guia foi conferido com o código atual e os fluxos web essenciais foram exercitados por automação em Chromium local. A publicação no domínio final, a validação manual completa em dispositivo e o aceite final permanecem pendentes, conforme o [estado do projeto](../../README.md#estado-do-projeto).
+- Este guia foi conferido com o código atual e os fluxos web essenciais foram exercitados por automação em Chromium local e no endereço público da Vercel. A validação manual completa em dispositivo e o aceite final permanecem pendentes, conforme o [estado do projeto](../../README.md#estado-do-projeto).
 
 Para informações técnicas e verificações registradas, consulte o [README](../../README.md). O [roteiro técnico de demonstração](roteiro-demonstracao.md) reúne os cenários detalhados de revisão.

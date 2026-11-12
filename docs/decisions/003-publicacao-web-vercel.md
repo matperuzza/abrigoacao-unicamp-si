@@ -2,7 +2,7 @@
 
 **Data:** 12/11/2026
 
-**Status:** implementada; validação do deploy público pendente.
+**Status:** implementada e publicada; fluxos essenciais verificados no domínio público.
 
 ## Contexto
 
@@ -23,4 +23,4 @@ O responsável solicitou um link para a professora executar o aplicativo sem pre
 - Login e contribuições continuam demonstrativos; não há autenticação de servidor, cobrança ou sincronização de dados.
 - O AsyncStorage web usa o armazenamento do navegador. Cada navegador/origem tem seus próprios dados; preview, produção e Expo Go não compartilham registros.
 - Recarregar a página exige novo login, pois a sessão permanece em memória.
-- O build web local e os fluxos essenciais foram verificados; isso não comprova um deploy na Vercel nem testes manuais em Android/iOS. Evidências e pendências na [Revisão 004](../reviews/004-publicacao-web-vercel.md).
+- O build web local, o deploy na Vercel e os fluxos essenciais no domínio público foram verificados. Isso não substitui os testes manuais em Android/iOS nem o aceite acadêmico. Evidências e pendências na [Revisão 004](../reviews/004-publicacao-web-vercel.md).

@@ -4,7 +4,7 @@
 
 **Base:** `d3d9683`, com alterações desta entrega.
 
-**Estado:** verificação técnica local aprovada; deploy público e aceite do responsável pendentes.
+**Estado:** verificação técnica local e deploy público aprovados; aceite do responsável pendente.
 
 ## Objetivo e limites
 
@@ -56,9 +56,16 @@ Resultado final da execução:
 - Acesso e login em viewport 390 × 844: aprovados. Essa emulação não equivale a teste em celular físico.
 - Nenhum erro JavaScript não tratado foi registrado na execução final.
 
+## Publicação e verificação remota
+
+- Commit da correção: `e7e2ae58b973c300fe1586c325a576316fe934e4`.
+- O status GitHub da integração Vercel foi consultado por `gh api repos/matperuzza/abrigoacao-unicamp-si/commits/e7e2ae58b973c300fe1586c325a576316fe934e4/status`: **success — Deployment has completed**.
+- [Registro do deploy na Vercel](https://vercel.com/meu-f624/abrigoacao-unicamp-si/C8xAD1UrMMZD5Ljboo73Q7CbwdDM).
+- Domínio público confirmado: **https://abrigoacao-unicamp-si.vercel.app**. Link adicionado ao README e ao guia da professora.
+- O mesmo script Playwright foi executado com `WEB_BASE_URL="https://abrigoacao-unicamp-si.vercel.app" node /var/folders/79/_bpz0dk50z1gxshtc493y5740000gn/T/opencode/abrigoacao-web-check/check.cjs`, usando a hospedagem real. Todos os fluxos listados acima passaram, incluindo abertura direta/reload de projeto, login, gravação/versionamento, persistência e transições.
+- A primeira tentativa remota atingiu o limite de 12 segundos no carregamento do formulário; a execução completa posterior, com limite de 30 segundos por ação, passou. Não houve erro JavaScript não tratado na execução final.
+- Os dados criados pelo teste remoto ficaram apenas no navegador temporário de teste, sem gravação em servidor.
+
 ## Pendências
 
-1. A Vercel deve executar o deploy do commit novo, não o redeploy de `d3d9683`.
-2. Confirmar o estado **Ready**, abrir o domínio final e conferir `/`, `/projects/1`, `/member/enter`, assets e recarregamento. A configuração Vercel está preparada, mas a execução remota ainda não foi observada nesta revisão.
-3. Inserir o link real no README e no guia depois que o endereço for confirmado.
-4. Testes manuais em dispositivo e aceite acadêmico continuam pendentes; as verificações desta entrega não concluem os critérios A22/A23 da Tarefa 007.
+Testes manuais em dispositivo e aceite acadêmico continuam pendentes; as verificações desta entrega não concluem os critérios A22/A23 da Tarefa 007.

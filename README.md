@@ -6,6 +6,10 @@ Projeto desenvolvido para uma atividade da disciplina de Sistemas de Informaçã
 
 ## Para a professora: como acessar e avaliar
 
+### [Abrir o aplicativo no navegador](https://abrigoacao-unicamp-si.vercel.app)
+
+O link funciona no navegador do computador ou do celular, sem instalar Expo Go ou baixar o projeto.
+
 **[Abrir o guia passo a passo de acesso e uso do aplicativo](docs/demo/guia-professora.md)**
 
 O guia explica o acesso pelo navegador após a publicação ou pelo Expo Go, a entrada na área dos membros e o uso de cada funcionalidade, com exemplos para avaliação.
@@ -15,7 +19,7 @@ O guia explica o acesso pelo navegador após a publicação ou pelo Expo Go, a e
 | Coordenação | `Betania` | `0000` |
 | Voluntário | `v-Betania` | `0000` |
 
-A área pública pode ser explorada sem login. A versão web está preparada para publicação na Vercel; o link público ainda depende de um deploy aprovado. Pelo Expo Go, é necessário iniciar o projeto no computador e escanear o QR code, conforme o guia. O GitHub contém o código e a documentação; não executa o aplicativo nesta página.
+A área pública pode ser explorada sem login. A versão web está publicada na Vercel pelo link acima. Pelo Expo Go, é necessário iniciar o projeto no computador e escanear o QR code, conforme o guia. O GitHub contém o código e a documentação.
 
 ## Estado do projeto
 
@@ -23,7 +27,7 @@ A área pública pode ser explorada sem login. A versão web está preparada par
 
 **Próximo passo:** validação manual em dispositivo (critérios A22, A23) e registro de aceite pelo responsável.
 
-**Publicação web (ajuste posterior à Tarefa 007):** lockfile corrigido, instalação limpa validada, dependências web compatíveis com SDK 58, exportação SPA e configuração Vercel implementadas. Fluxos essenciais verificados com Chromium automatizado sobre o build de produção local; publicação na Vercel e verificação do domínio final pendentes. Evidências na [Revisão 004](docs/reviews/004-publicacao-web-vercel.md).
+**Publicação web (ajuste posterior à Tarefa 007):** lockfile corrigido, instalação limpa validada, dependências web compatíveis com SDK 58, exportação SPA e configuração Vercel implementadas. Deploy `e7e2ae5` aprovado na Vercel; fluxos essenciais verificados com Chromium automatizado tanto no build local quanto no domínio público. Testes manuais em dispositivo e aceite acadêmico continuam pendentes. Evidências na [Revisão 004](docs/reviews/004-publicacao-web-vercel.md).
 
 ## Contexto e objetivo
 
