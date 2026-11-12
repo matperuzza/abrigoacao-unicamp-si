@@ -10,13 +10,12 @@ import { MissingRecord } from '@/components/MissingRecord';
 import { useDiscardDraft } from '@/hooks/useDiscardDraft';
 import { spacing, colors, typography } from '@/theme';
 import { findProject } from '@/features/projects/data';
-import { usePermissions, useDemoAccess } from '@/features/access/DemoAccess';
+import { usePermissions, useAuth } from '@/features/access/AuthContext';
 import { createTransition, validateTransitionInput } from '@/services/transitions';
-import { getDemoAuthor } from '@/features/projects/transition';
 
 export default function TransitionScreen() {
   const permissions = usePermissions();
-  const { profile } = useDemoAccess();
+  const { session } = useAuth();
   const { id } = useLocalSearchParams<{ id: string }>();
   const project = findProject(id);
   const [responsible, setResponsible] = useState('');
@@ -29,20 +28,20 @@ export default function TransitionScreen() {
   useDiscardDraft(!!(responsible || pending || learnings) && !saved);
 
   useEffect(() => {
-    if (!permissions.canWriteTransitions || !profile) {
+    if (!permissions.canWriteTransitions || !session) {
       router.replace('/member/projects');
     }
-  }, [permissions.canWriteTransitions, profile]);
+  }, [permissions.canWriteTransitions, session]);
 
   if (!project) return <MissingRecord title="Projeto não encontrado" />;
-  if (!permissions.canWriteTransitions || !profile) return null;
+  if (!permissions.canWriteTransitions || !session) return null;
 
   const back = () => router.canGoBack() ? router.back() : router.replace('/member/projects');
 
   async function handleSave() {
     if (saving) return;
-    if (!profile) {
-      setSaveError('Perfil não selecionado. Volte e escolha um perfil.');
+    if (!session) {
+      setSaveError('Sessão não encontrada. Volte e entre novamente.');
       return;
     }
     const validation = validateTransitionInput(id, responsible, pending, learnings);
@@ -53,7 +52,7 @@ export default function TransitionScreen() {
     setSaving(true);
     setSaveError(null);
     try {
-      await createTransition(id, responsible, pending, learnings, profile);
+      await createTransition(id, responsible, pending, learnings, session.profile, session.person.displayName);
       setSaved(true);
       router.replace(`/member/projects/${id}`);
     } catch {
@@ -69,7 +68,7 @@ export default function TransitionScreen() {
       <View style={{ gap: spacing.lg }}>
         <Notice>Alterações são salvas localmente no aparelho. Dados não compartilhados entre dispositivos.</Notice>
         <Input label="Projeto" value={project.title} onChangeText={() => {}} disabled />
-        <Text style={{ ...typography.bodySmall, color: colors.textSecondary }}>Autor do registro: {getDemoAuthor(profile)}</Text>
+        <Text style={{ ...typography.bodySmall, color: colors.textSecondary }}>Autor do registro: {session.person.displayName} ({session.profile})</Text>
         <Input label="Novo responsável (demonstrativo)" value={responsible} onChangeText={setResponsible} placeholder="Nome do próximo responsável" />
         <Input label="Pendências" value={pending} onChangeText={setPending} multiline placeholder="Liste as pendências" />
         <Input label="Aprendizados" value={learnings} onChangeText={setLearnings} multiline placeholder="Registre os aprendizados" />

@@ -2,6 +2,8 @@
 
 **Status:** em revisão
 
+> **Revisão posterior:** os critérios assinalados como atendidos abaixo são relatos da entrega, não aceite definitivo. Foram identificadas falhas de preservação de dados e testes que duplicam os serviços. Consulte o [registro F01 a F06](../reviews/001-revisao-persistencia-local.md) e a [Tarefa 004](004-confiabilidade-persistencia-local.md), que orientam a correção e revalidação. A reabertura real em dispositivo e os demais testes manuais continuam pendentes; preservar este histórico não ratifica suas afirmações de tratamento de falhas.
+
 ## Objetivo
 
 Permitir criar e editar procedimentos, preservar versões anteriores e recuperar os dados após reabrir o aplicativo.
@@ -160,4 +162,4 @@ Testes manuais de criação, edição, histórico, descarte e reabertura quando 
 
 ### Próximos passos recomendados
 
-Aprovar esta tarefa e iniciar a **Tarefa 003 — Registros de transição persistentes** (continuidade dos projetos), reutilizando a infraestrutura de persistência criada.
+A Tarefa 003 já foi entregue em revisão. O próximo passo vigente é executar a [Tarefa 004 — Confiabilidade da persistência local](004-confiabilidade-persistencia-local.md) e reavaliar as evidências desta entrega antes do aceite.

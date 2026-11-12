@@ -1,0 +1,1 @@
+export { DonationResultScreen as default } from '@/features/donations/Screens';

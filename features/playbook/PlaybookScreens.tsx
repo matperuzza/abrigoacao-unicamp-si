@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { ScreenContainer } from '@/components/ScreenContainer';
@@ -12,7 +12,7 @@ import { Notice } from '@/components/Notice';
 import { MissingRecord } from '@/components/MissingRecord';
 import { colors, spacing, typography } from '@/theme';
 import { categories, findEntry, getAllEntries, formatDemoDate, type PlaybookVersion, type Category, type PlaybookEntry } from '@/services/playbook';
-import { usePermissions } from '@/features/access/DemoAccess';
+import { usePermissions } from '@/features/access/AuthContext';
 
 function VersionContent({ version }: { version: PlaybookVersion }) {
   return <Card><View style={styles.list}>
@@ -48,29 +48,31 @@ export function PlaybookScreen() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    let mounted = true;
-    async function load() {
-      try {
-        setLoading(true);
-        const data = await getAllEntries();
-        if (mounted) {
-          setEntries(data);
-          setError(null);
-        }
-      } catch {
-        if (mounted) setError('Erro ao carregar o playbook. Verifique o armazenamento e tente novamente.');
-      } finally {
-        if (mounted) setLoading(false);
-      }
+  const load = useCallback(async () => {
+    try {
+      setLoading(true);
+      const data = await getAllEntries();
+      setEntries(data);
+      setError(null);
+    } catch (e) {
+      const message = e instanceof Error ? e.message : 'Erro ao carregar o playbook. Verifique o armazenamento e tente novamente.';
+      setError(message);
+    } finally {
+      setLoading(false);
     }
-    load();
-    return () => { mounted = false; };
   }, []);
 
+  useEffect(() => {
+    let mounted = true;
+    (async () => {
+      await load();
+      if (!mounted) return;
+    })();
+    return () => { mounted = false; };
+  }, [load]);
+
   const retry = () => {
-    setLoading(true);
-    setError(null);
+    load();
   };
 
   if (loading) return <LoadingScreen />;
@@ -112,27 +114,32 @@ export function PlaybookDetailScreen() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    let mounted = true;
-    async function load() {
-      try {
-        setLoading(true);
-        const data = await findEntry(id);
-        if (mounted) {
-          setEntry(data ?? null);
-          setError(null);
-        }
-      } catch {
-        if (mounted) setError('Erro ao carregar o conteúdo.');
-      } finally {
-        if (mounted) setLoading(false);
-      }
+  const load = useCallback(async () => {
+    try {
+      setLoading(true);
+      const data = await findEntry(id);
+      setEntry(data ?? null);
+      setError(null);
+    } catch (e) {
+      const message = e instanceof Error ? e.message : 'Erro ao carregar o conteúdo.';
+      setError(message);
+    } finally {
+      setLoading(false);
     }
-    load();
-    return () => { mounted = false; };
   }, [id]);
 
-  const retry = () => { setLoading(true); setError(null); };
+  useEffect(() => {
+    let mounted = true;
+    (async () => {
+      await load();
+      if (!mounted) return;
+    })();
+    return () => { mounted = false; };
+  }, [load]);
+
+  const retry = () => {
+    load();
+  };
 
   if (loading) return <LoadingScreen />;
   if (error) return <ErrorScreen message={error} onRetry={retry} />;
@@ -160,27 +167,32 @@ export function PlaybookHistoryScreen() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    let mounted = true;
-    async function load() {
-      try {
-        setLoading(true);
-        const data = await findEntry(id);
-        if (mounted) {
-          setEntry(data ?? null);
-          setError(null);
-        }
-      } catch {
-        if (mounted) setError('Erro ao carregar o histórico.');
-      } finally {
-        if (mounted) setLoading(false);
-      }
+  const load = useCallback(async () => {
+    try {
+      setLoading(true);
+      const data = await findEntry(id);
+      setEntry(data ?? null);
+      setError(null);
+    } catch (e) {
+      const message = e instanceof Error ? e.message : 'Erro ao carregar o histórico.';
+      setError(message);
+    } finally {
+      setLoading(false);
     }
-    load();
-    return () => { mounted = false; };
   }, [id]);
 
-  const retry = () => { setLoading(true); setError(null); };
+  useEffect(() => {
+    let mounted = true;
+    (async () => {
+      await load();
+      if (!mounted) return;
+    })();
+    return () => { mounted = false; };
+  }, [load]);
+
+  const retry = () => {
+    load();
+  };
 
   if (loading) return <LoadingScreen />;
   if (error) return <ErrorScreen message={error} onRetry={retry} />;
@@ -212,31 +224,36 @@ export function PlaybookVersionScreen() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    let mounted = true;
-    async function load() {
-      try {
-        setLoading(true);
-        const data = await findEntry(id);
-        if (mounted) {
-          setEntry(data ?? null);
-          if (data) {
-            const found = data.versions.find((item: PlaybookVersion) => String(item.version) === version);
-            setSelectedVersion(found ?? null);
-          }
-          setError(null);
-        }
-      } catch {
-        if (mounted) setError('Erro ao carregar a versão.');
-      } finally {
-        if (mounted) setLoading(false);
+  const load = useCallback(async () => {
+    try {
+      setLoading(true);
+      const data = await findEntry(id);
+      setEntry(data ?? null);
+      if (data) {
+        const found = data.versions.find((item: PlaybookVersion) => String(item.version) === version);
+        setSelectedVersion(found ?? null);
       }
+      setError(null);
+    } catch (e) {
+      const message = e instanceof Error ? e.message : 'Erro ao carregar a versão.';
+      setError(message);
+    } finally {
+      setLoading(false);
     }
-    load();
-    return () => { mounted = false; };
   }, [id, version]);
 
-  const retry = () => { setLoading(true); setError(null); };
+  useEffect(() => {
+    let mounted = true;
+    (async () => {
+      await load();
+      if (!mounted) return;
+    })();
+    return () => { mounted = false; };
+  }, [load]);
+
+  const retry = () => {
+    load();
+  };
 
   if (loading) return <LoadingScreen />;
   if (error) return <ErrorScreen message={error} onRetry={retry} />;

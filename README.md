@@ -4,7 +4,9 @@ Aplicativo mobile acadêmico para integrar a gestão do conhecimento e a sustent
 
 Projeto desenvolvido para uma atividade da disciplina de Sistemas de Informação (SI), do curso de Administração da Unicamp. O nome aprovado é **AbrigoAção**, com identidade visual branca e azul institucional.
 
-**Estado atual:** protótipo visual navegável implementado, revisado tecnicamente e testado no Expo pelo responsável, que informou funcionamento e autorizou a publicação no GitHub. Playbook funcional com persistência local (AsyncStorage) entregue em revisão. Registros de transição persistentes (Tarefa 003) entregues em revisão. Fluxo de contribuição simulada, autenticação e pagamentos ainda não estão implementados.
+**Estado atual:** Tarefa 007 — Identidade, acesso e consolidação da entrega final **entregue em revisão**. Login demonstrativo nominal (16 acessos), autoria individual, equipe, dados enriquecidos, painel, navegação integrada, acabamento e correções implementados. Preservação dos dados existentes e reconciliação das evidências das entregas anteriores concluídas. 44 testes automatizados (16 playbook + 19 transições + 3 integridade + 6 doações). Verificações técnicas (tipos, lint, Expo Doctor, exportações) aprovadas. Testes manuais em dispositivo/simulador e aceite final do responsável pendentes. Backend não exigido.
+
+**Próximo passo:** validação manual em dispositivo (critérios A22, A23) e registro de aceite pelo responsável.
 
 ## Contexto e objetivo
 
@@ -36,7 +38,7 @@ A parceria é uma proposta do projeto acadêmico: não há acordo, percentual, b
 | Voluntário | Consultar o conteúdo interno e colaborar no playbook e nos registros de continuidade |
 | Coordenação | Organizar conteúdos e projetos e, quando houver backend, administrar acessos |
 
-O acesso público não exige autenticação. A matriz detalhada de permissões internas será definida antes da implementação do backend. Uma seleção de perfil no protótipo será apenas uma simulação de navegação, não um mecanismo de autorização.
+O acesso público não exige autenticação. A matriz detalhada de permissões internas será definida antes da implementação do backend. Login demonstrativo nominal (16 credenciais, senha `0000`) implementado na Tarefa 007; não é autenticação real nem autorização segura.
 
 ## MVP proposto (objetivo das próximas entregas)
 
@@ -45,18 +47,20 @@ A proposta inicial é um protótipo funcional com dados fictícios e interface e
 ### Área pública
 
 - Apresentação da instituição e da missão.
-- Lista e detalhes dos projetos, com andamento, metas e atualizações fictícias.
-- Escolha de contribuição mensal e confirmação explicitamente simulada.
+- Lista e detalhes dos projetos, com andamento, metas e atualizações fictícias; busca por título/descrição/objetivo e filtro por situação.
+- Escolha de contribuição mensal (R$ 20/50/100) e confirmação explicitamente simulada; resultado exige confirmação na sessão; avisos antes/depois.
 - Apresentação da proposta de parceria com a Roque Imóveis.
 
 ### Área interna
 
-- Acesso demonstrativo como voluntário ou coordenação.
-- Guia de boas-vindas e integração de novos membros.
-- Playbook por categorias, com consulta, criação e edição de conteúdo.
-- Registro de autor e data das alterações, preservando versões anteriores.
-- Projetos com responsáveis, aprendizados, pendências e registros de transição.
-- Persistência local das alterações para recuperá-las após reabrir o aplicativo.
+- Login demonstrativo nominal: 8 pessoas × 2 perfis (Voluntário/Coordenação), senha `0000`, prefixo `v-` para Voluntário.
+- Painel (Visão geral) com saudação nominal, projetos da pessoa, procedimentos recentes, transições recentes, atalhos.
+- Guia de boas-vindas alinhado às ações existentes (entrada, consulta, edição/versionamento, transição).
+- Playbook por categorias (6 procedimentos enriquecidos), com consulta, criação, edição, versionamento, busca e filtro.
+- Registro de autor nominal (`Nome (Perfil)`), data e indicação demonstrativa; versões anteriores preservadas.
+- Projetos (5) com responsáveis do grupo, atualizações datadas, pendências, aprendizados, transições; procedimentos relacionados por ID.
+- Registros de transição com autor nominal, responsável livre, pendências/aprendizados; histórico por projeto ordenado decrescente.
+- Persistência local das alterações (AsyncStorage) com migração idempotente segura; dados sobrevivem a fechamento/reabertura.
 
 Persistência local não oferece colaboração entre celulares. Edição compartilhada, autenticação real e autorização dependem de uma etapa posterior de backend.
 
@@ -70,9 +74,9 @@ Persistência local não oferece colaboração entre celulares. Edição compart
 ## Jornadas que a demonstração deve comprovar
 
 1. Um visitante conhece a instituição, abre um projeto e simula uma contribuição mensal, sem movimentação financeira.
-2. Um novo voluntário acessa o guia inicial e encontra um procedimento no playbook.
-3. Um membro atualiza um procedimento, identifica a versão anterior e recupera a alteração após reabrir o aplicativo.
-4. Um responsável registra pendências e aprendizados de um projeto para apoiar a entrada de outro voluntário.
+2. Um novo voluntário entra com login nominal, acessa o guia inicial e encontra um procedimento no playbook.
+3. Um membro atualiza um procedimento com autoria individual, identifica a versão anterior e recupera a alteração após reabrir o aplicativo; troca de conta preserva histórico.
+4. Um responsável registra transição com autoria nominal, pendências e aprendizados para apoiar a entrada de outro voluntário; painel reflete atualizações.
 
 ## Tecnologia e referência
 
@@ -85,7 +89,7 @@ Base tecnológica implementada:
 - testes de integridade dos dados demonstrativos com o runner do Node.js;
 - Git para versionamento.
 
-Persistência local implementada com `@react-native-async-storage/async-storage` (Tarefas 002 e 003). Versões e decisões estão em [Fundação visual](docs/decisions/001-fundacao-visual.md), [Tarefa 002](docs/tasks/002-playbook-persistencia-local.md) e [Tarefa 003](docs/tasks/003-registros-transicao-persistentes.md).
+Persistência local implementada com `@react-native-async-storage/async-storage` (Tarefas 002, 003 e 007). Versões e decisões estão em [Fundação visual](docs/decisions/001-fundacao-visual.md), [Tarefa 002](docs/tasks/002-playbook-persistencia-local.md), [Tarefa 003](docs/tasks/003-registros-transicao-persistentes.md) e [Decisão 002](docs/decisions/002-identidade-dados-demonstrativos.md).
 
 O GasIndex é referência de organização e configuração técnica. O projeto está disponível no diretório irmão `../GasIndex`. Dependências e padrões devem ser avaliados antes do reaproveitamento; funcionalidades de postos, localização, preços e ranking não pertencem a este produto.
 
@@ -102,7 +106,7 @@ features/
   playbook/                  Conteúdos e histórico de versões
   projects/                  Projetos e registros de continuidade
   donations/                 Contribuições e fluxo demonstrativo
-  access/                    Perfis demonstrativos e futuro acesso autenticado
+  access/                    Cadastro de pessoas, login, sessão, permissões
 services/                    Acesso a armazenamento e integrações
 hooks/                       Comportamentos compartilhados de interface
 types/                       Tipos realmente compartilhados
@@ -113,6 +117,8 @@ tests/                       Testes de regras e fluxos relevantes
 docs/
   tasks/                     Tarefas delimitadas para implementação
   decisions/                 Registro de decisões técnicas e de produto
+  reviews/                   Achados de revisão, evidências e pendências
+  demo/                      Roteiro de demonstração
 ```
 
 `app/` contém rotas enxutas: a área pública usa `(public)/(tabs)` e a área interna usa `member/(tabs)`. Detalhes e formulários ficam em pilhas fora das abas. Telas, tipos e dados demonstrativos estão em `features/`. Pastas ainda sem implementação mantêm `.gitkeep`.
@@ -124,11 +130,26 @@ docs/
 | 1. Estruturação | Escopo, regras e pastas | Concluída |
 | 2. Experiência | Mapa de telas, jornadas e identidade inicial | Direção aprovada; teste geral no Expo relatado pelo responsável |
 | 3. Fundação e layout | Expo, navegação, dados fictícios e telas | Verificações técnicas aprovadas; teste geral aceito para publicação |
-| 4. Conhecimento | Playbook, versões, transições e persistência local | **Em revisão** (Tarefas 002 e 003); playbook funcional + transições persistentes |
-| 5. Sustentabilidade | Fluxo demonstrativo de contribuição e parceria | Interface disponível; aceite do fluxo pendente |
-| 6. Entrega acadêmica | Revisão e roteiro de demonstração | Pendente |
+| 4. Conhecimento | Playbook, versões, transições e persistência local | **Em revisão** (Tarefas 002, 003, 007); playbook funcional + transições persistentes + login/autoria/painel |
+| 5. Sustentabilidade | Fluxo demonstrativo de contribuição e parceria | **Em revisão** (Tarefa 007); jornada completa com confirmação, navegação corrigida, proteções |
+| 6. Entrega acadêmica | Revisão e roteiro de demonstração | **Em revisão** (Tarefa 007); roteiro atualizado, reconciliação de evidências, revisão final |
 
 As etapas são uma sequência de trabalho, não um cronograma com datas. Integrações reais serão planejadas se os requisitos da atividade as exigirem.
+
+### Sequência preparada para o próximo agente
+
+| Ordem | Tarefa | Condição |
+| --- | --- | --- |
+| 1 | [004 — Confiabilidade da persistência local](docs/tasks/004-confiabilidade-persistencia-local.md) | **Entregue em revisão** — falhas F01–F06 corrigidas, 38 testes passando |
+| 2 | [005 — Contribuição simulada completa](docs/tasks/005-contribuicao-simulada.md) | **Entregue em revisão** — jornada completa, 44 testes totais |
+| 3 | [006 — Revisão integrada e entrega acadêmica](docs/tasks/006-revisao-integrada-entrega-academica.md) | **Entregue em revisão** — verificações técnicas e roteiro; jornadas manuais não comprovadas pela suíte |
+| 4 | [007 — Identidade, acesso e consolidação da entrega final](docs/tasks/007-identidade-acesso-entrega-final.md) | **Entregue em revisão** — implementação completa; critérios A01–A25; aguarda validação manual e aceite |
+
+Leia README, AGENTS, a tarefa e suas referências antes de implementar. Execute uma tarefa por vez, entregue em revisão com evidências e não inicie automaticamente a seguinte. Para a 007, prazo é o dia da solicitação e backend não é exigido; rubrica detalhada e plataforma de demonstração permanecem a confirmar.
+
+### Revisão integrada (pós-Tarefa 007)
+
+Na entrega da 007 foram implementados: login nominal (16 credenciais), autoria individual, dados enriquecidos, painel, busca/filtro, navegação integrada, correções de contribuição e persistência, acabamento visual, documentação atualizada. Resultados técnicos: tipos, lint, 44 testes (16 playbook + 19 transições + 3 integridade + 6 doações), Expo Doctor, dependências, exportações Android/iOS aprovados. Roteiro (`docs/demo/roteiro-demonstracao.md`) e revisão (`docs/reviews/003-entrega-final.md`) atualizados com reconciliação de evidências anteriores. Testes manuais em dispositivo/simulador (A22, A23) e aceite final do responsável pendentes. Marcações excessivas em documentos 004–006 reconciliadas; resultados históricos identificados como tais; pendências técnicas separadas.
 
 ## Organização do trabalho
 
@@ -141,6 +162,8 @@ O contrato de trabalho dos agentes está em [AGENTS.md](AGENTS.md).
 ## Primeira implementação — protótipo visual
 
 Entrega e revisão registradas na [Tarefa 001](docs/tasks/001-fundacao-layout-navegavel.md), com roteiro de testes manuais.
+
+Esta seção descreve a entrega histórica da fundação. Os comportamentos de gravação e histórico foram posteriormente ampliados pelas tarefas 002, 003 e 007.
 
 ### Disponível no código
 
@@ -170,8 +193,8 @@ Entrega e revisão registradas na [Tarefa 002](docs/tasks/002-playbook-persisten
 - Histórico de versões por documento com navegação para visualizar qualquer versão.
 - Busca por título/conteúdo e filtro por categoria funcionando sobre dados persistidos.
 - Persistência em AsyncStorage: dados sobrevivem a fechamento/reabertura do app.
-- Tratamento de erros de leitura (JSON inválido, schema version, array inválido) sem apagar armazenamento.
-- Estados de loading, erro com botão "Tentar novamente" e conteúdo não encontrado (`MissingRecord`).
+- **Tratamento de erros de leitura corrigido (Tarefa 004):** erros propagam sem sobrescrever dados; inicialização só para chave ausente; validação completa de envelope e conteúdo.
+- **Estados de loading/erro/retry funcionais (Tarefa 004):** botão "Tentar novamente" executa nova leitura e recupera após falha temporária.
 - Formulários com validação, botão Salvar habilitado apenas quando válido, feedback de salvamento.
 - Confirmação de descarte de rascunhos não salvos preservada.
 - Avisos de interface atualizados: alterações salvas localmente, dados não compartilhados entre dispositivos.
@@ -181,23 +204,26 @@ Entrega e revisão registradas na [Tarefa 002](docs/tasks/002-playbook-persisten
 
 - Exclusão de documentos, restauração de versão específica, sincronização multi-dispositivo não implementados.
 - Autenticação real e permissões de servidor não implementadas.
-- Registros de transição de projetos (pendências, aprendizados, responsável) ainda não persistidos.
+- Registros de transição foram adicionados posteriormente na Tarefa 003, também em revisão.
 - Fluxo de contribuição mensal simulada não finalizado (falta confirmação e resultado).
 - Testes manuais em dispositivo/simulador não executados neste ambiente.
-- `expo-doctor` reporta 3 packages com patch version desatualizado (condição pré-existente).
+- O descompasso de patches relatado na entrega original é histórico; consulte os resultados posteriores da Tarefa 003. Nenhuma nova checagem de dependências foi feita na revisão de persistência.
 - Aviso Node.js `[MODULE_TYPELESS_PACKAGE_JSON]` ao rodar testes — não afeta resultado.
+- **Falhas F01–F06 corrigidas na Tarefa 004** — validação completa, propagação de erros, retry funcional, testes dos serviços reais.
 
 ### Verificações técnicas
+
+Resultados atuais (após Tarefa 004):
 
 | Comando | Resultado |
 |---|---|
 | `npm run type-check` | Aprovado |
 | `npm run lint` | Aprovado, 0 erros e 0 avisos |
-| `npm test` | 31 testes aprovados (14 playbook/projetos/doações + 17 transições) |
-| `npx expo-doctor` | 20/20 verificações aprovadas |
-| `npx expo install --check` | Dependências compatíveis |
+| `npm test` | **38 testes aprovados** (19 playbook + 19 transições, serviços reais) |
 | `npx expo export --platform android` | Bundle Hermes exportado com sucesso |
 | `npx expo export --platform ios` | Bundle Hermes exportado com sucesso |
+
+*Resultados históricos da entrega original: 14 testes playbook (implementações duplicadas).*
 
 ## Terceira implementação — Registros de transição persistentes (Tarefa 003)
 
@@ -208,12 +234,13 @@ Entrega e revisão registradas na [Tarefa 003](docs/tasks/003-registros-transica
 - Modelo de transição com id, projectId, responsible, pending, learnings, author, createdAt
 - Persistência independente em AsyncStorage (chave `abrigoacao.transitions.v1`)
 - Formulário funcional: validação, autor por perfil, feedback de salvamento, confirmação de descarte
-- Histórico embutido no detalhe interno do projeto com loading/error/retry
+- Histórico embutido no detalhe interno do projeto com **estados de loading/erro/retry funcionais (Tarefa 004)**.
 - Ordenação decrescente por data, badge "Mais recente", data/hora formatada em pt-BR
 - Contexto inicial de transição preservado como "Registro de transição (contexto inicial)"
 - Botão "Registrar transição" condicionado a permissão `canWriteTransitions`
 - Perfil demonstrativo reflete autoria: "Voluntário (demo)" ou "Coordenação (demo)"
 - Dados locais não compartilhados entre dispositivos
+- **Falhas F01–F06 corrigidas na Tarefa 004** — validação completa de registros, propagação de erros, retry funcional, testes dos serviços reais.
 
 ### Limites desta entrega
 
@@ -221,18 +248,102 @@ Entrega e revisão registradas na [Tarefa 003](docs/tasks/003-registros-transica
 - Fluxo de contribuição mensal simulada não finalizado (falta confirmação e resultado)
 - Testes manuais em dispositivo/simulador não executados neste ambiente
 - Aviso Node.js `[MODULE_TYPELESS_PACKAGE_JSON]` ao rodar testes — não afeta resultado
+- **Falhas F01–F06 corrigidas na Tarefa 004** — validação completa, propagação de erros, retry, testes reais.
 
 ### Verificações técnicas
+
+Resultados atuais (após Tarefa 004):
 
 | Comando | Resultado |
 |---|---|
 | `npm run type-check` | Aprovado |
 | `npm run lint` | Aprovado, 0 erros e 0 avisos |
-| `npm test` | 31 testes aprovados (14 playbook/projetos/doações + 17 transições) |
-| `npx expo-doctor` | 20/20 verificações aprovadas |
-| `npx expo install --check` | Dependências compatíveis |
+| `npm test` | **38 testes aprovados** (19 playbook + 19 transições, serviços reais) |
 | `npx expo export --platform android` | Bundle Hermes exportado com sucesso |
 | `npx expo export --platform ios` | Bundle Hermes exportado com sucesso |
+
+*Resultados históricos da entrega original: 17 testes transições (implementações duplicadas).*
+
+## Quarta implementação — Identidade, acesso e consolidação (Tarefa 007)
+
+Entrega e revisão registradas na [Tarefa 007](docs/tasks/007-identidade-acesso-entrega-final.md) e [Revisão 003](docs/reviews/003-entrega-final.md).
+
+### Disponível no código
+
+**Bloco 1 — Cadastro e login:**
+- Fonte única de 8 pessoas com IDs estáveis (`features/access/people.ts`).
+- 16 credenciais: senha `0000`; prefixo `v-` = Voluntário; sem prefixo = Coordenação.
+- Normalização de login (caixa/acentos/espaços); erros claros para campos vazios/inválidos.
+- `AuthProvider` + `useAuth`/`useSession`/`usePermissions`: sessão em memória; logout limpa sessão.
+- `LoginScreen` com labels, senha mascarada/alternável, orientação demonstrativa, avatares com iniciais.
+
+**Bloco 2 — Autoria individual:**
+- `getDemoAuthor(profile, personName?)`: formato `"Nome (Perfil)"` (ex: `Filipe Angi (Coordenação)`).
+- Fallback legado `"Perfil (demo)"` preservado nas versões antigas.
+- Novos documentos, versões e transições registram pessoa conectada, perfil, data, indicação demonstrativa.
+- Autor e responsável distintos; responsáveis livres não restringidos.
+
+**Bloco 3 — Dados enriquecidos e migração segura:**
+- 6 procedimentos enriquecidos (objetivo, passos, cuidados, continuidade); versões expandidas com autores nominais.
+- 5 projetos com responsáveis do grupo, atualizações datadas, pendências/aprendizados contextualizados; casos vazios preservados.
+- Tela Sobre com 7 integrantes + Betania (professora); avatares com iniciais.
+- Guia alinhado às ações reais (sem registro semanal inexistente).
+- Migração idempotente `dataVersion = 2`: reconhece exemplos por ID + conteúdo/versão conhecidos; preserva edições e conteúdo próprio; não duplica; falha leitura/validação não grava; falha escrita preserva dados e permite retry.
+- Decisão documentada em `docs/decisions/002-identidade-dados-demonstrativos.md`.
+
+**Bloco 4 — Painel (Visão geral):**
+- Saudação nominal + perfil; aviso atualizado.
+- Seus projetos (por ID); procedimentos recentes (5); transições recentes (5).
+- Atalhos: Novo conteúdo, Registrar transição, Guia, Playbook.
+- Estados loading/erro/retry/vazio por seção.
+
+**Bloco 5 — Navegação integrada:**
+- Busca/filtro combinados (público/interno): título/descrição/objetivo + situação.
+- Procedimentos relacionados no detalhe interno (`relatedProcedures` por ID); público não expõe internos.
+- Listas/detalhe/painel atualizam ao voltar/salvar/trocar conta.
+- `TransitionHistorySection` componente (sem tela/rolagem aninhada); ordenação, autoria, responsável, contexto inicial, badge, retry.
+- Ciclo de carregamento com `mounted` flag evita updates pós-desmontagem.
+
+**Bloco 6 — Contribuição e persistência robustas:**
+- Valores R$ 20/50/100 em centavos; avisos explícitos; estado efêmero.
+- "Voltar ao resumo" navega explicitamente para valor confirmado; "Nova simulação" e troca de valor limpam confirmação; proteção 300ms contra toques duplicados.
+- Acesso direto a resultado sem confirmação bloqueado; provider único no ancestral comum.
+- Validação completa de envelopes (`null`, arrays, primitivos), campos, datas, versões; v2 sem v1 legível.
+- Erros discrimináveis; falha não apaga/reescreve; retry real.
+
+**Bloco 7 — Acabamento visual:**
+- Tokens branco/azul; rotas `member/`; hierarquia Home; cards situação/progresso/responsável.
+- Avatares com iniciais (8 pessoas); AboutScreen com equipe e pilares.
+- Labels, contraste, áreas de toque 48dp, textos longos, fontes ampliadas, teclado, safe area.
+- Estados consistentes; botões indicam ação/resultado; sem confirmação falsa.
+
+**Bloco 8 — Documentação:**
+- `docs/decisions/002-identidade-dados-demonstrativos.md`: decisão de migração.
+- `docs/demo/roteiro-demonstracao.md`: credenciais, jornadas, reconciliação.
+- `docs/reviews/003-entrega-final.md`: base Git, comandos/resultados, matriz A01–A25, fluxos manuais, limitações.
+- README e AGENTS.md atualizados.
+
+### Limites desta entrega
+
+- Backend, autenticação real, provedor de pagamentos não implementados (fora do MVP).
+- Testes manuais em dispositivo/simulador não executados (critérios A22, A23 pendentes).
+- Rubrica detalhada e plataforma de demonstração a confirmar pelo responsável.
+- Aviso Node.js `[MODULE_TYPELESS_PACKAGE_JSON]` — não afeta resultado.
+
+### Verificações técnicas
+
+Resultados da Tarefa 007:
+
+| Comando | Resultado |
+|---|---|
+| `npm run type-check` | Aprovado |
+| `npm run lint` | Aprovado, 0 erros e 0 avisos |
+| `npm test` | **44 testes aprovados** (16 playbook + 19 transições + 3 integridade + 6 doações) |
+| `npx expo-doctor` | 20/20 checks aprovados |
+| `npx expo install --check` | Dependências up to date |
+| `npx expo export --platform android` | Bundle Hermes 2.7MB exportado com sucesso |
+| `npx expo export --platform ios` | Bundle Hermes 2.7MB exportado com sucesso |
+| `git diff --check` | Sem problemas |
 
 ## Executar e testar
 
@@ -264,18 +375,13 @@ npx expo export --platform android
 npx expo export --platform ios
 ```
 
-### Resultado da revisão técnica
+### Revisão atual (pós-Tarefa 007)
 
-- Checagem de tipos e lint: aprovados, sem avisos de lint.
-- Testes: 4 aprovados, cobrindo integridade dos históricos, projetos, registros inexistentes e valores de contribuição. O Node pode emitir aviso de detecção de módulo ao importar os dados TypeScript; isso não representa falha dos testes.
-- Expo Doctor: 21/21 verificações aprovadas; dependências compatíveis segundo `expo install --check`.
-- Bundles Android e iOS: exportados com sucesso. Exportação não equivale a teste em dispositivo nem geração de APK/IPA.
-- Execução no Expo: o responsável informou “testei e funcionou” e autorizou prosseguir com a publicação. Sistema, modelo, versão do Expo Go e resultado individual das jornadas não foram informados; o checklist detalhado permanece como referência na Tarefa 001. Não houve execução manual pelo assistente.
-- `npm audit --omit=dev`: 28 alertas (10 moderados e 18 altos), incluindo dependências transitivas de Expo/Metro e Router. Não foi aplicada a correção forçada, pois propõe versões incompatíveis. Detalhes e acompanhamento na Tarefa 001.
+Tipos e lint aprovados; `npm test` executou **44 testes aprovados** (16 playbook + 19 transições + 3 integridade + 6 doações). Falhas F01–F06 corrigidas e preservadas; migração idempotente adicionada sem quebrar compatibilidade. Login nominal, autoria individual, painel, navegação integrada, contribuição corrigida, acabamento visual implementados. Exportações Android/iOS aprovadas. Testes manuais em dispositivo pendentes (A22, A23). Evidências e achados no [registro de revisão](docs/reviews/003-entrega-final.md).
 
 ## Decisões pendentes
 
-- Prazo, rubrica de avaliação e exigência de backend na disciplina.
+- Rubrica detalhada de avaliação (prazo no dia da solicitação da 007 e backend não exigido, conforme responsável).
 - Plataforma prioritária para demonstração: Android ou iOS.
 - Regras detalhadas de edição do playbook e administração de acessos.
 - Necessidade de pagamentos em ambiente de testes ou reais em uma fase futura.

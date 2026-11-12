@@ -2,6 +2,8 @@
 
 **Status:** em revisão
 
+> **Revisão posterior:** as marcações e afirmações de aceite abaixo são relatos da entrega, não aprovação final. Os testes de persistência usam funções duplicadas; leitura com erro retorna lista vazia e nova tentativa não refaz a consulta. Consulte o [registro F01 a F06](../reviews/001-revisao-persistencia-local.md) e a [Tarefa 004](004-confiabilidade-persistencia-local.md). Testes manuais continuam pendentes. Exportação não comprova ausência de crash em navegação. A recomendação histórica de próxima etapa ao final foi substituída pela sequência 004 → 005 → 006 do README.
+
 ## Objetivo
 
 Permitir que um membro registre quem dará continuidade a um projeto, suas pendências e aprendizados, preservando o histórico e recuperando os registros após fechar e reabrir o aplicativo.
@@ -169,4 +171,4 @@ Não inclui: edição/exclusão de transições, gestão de tarefas, alteração
 
 ### Próximos passos recomendados
 
-Aprovar esta tarefa e iniciar a **Tarefa 004 — Fluxo de contribuição simulada completa** (finalizar seleção → resumo → confirmação → resultado) e a **Tarefa 005 — Revisão integrada e entrega acadêmica**.
+Executar a [Tarefa 004 — Confiabilidade da persistência local](004-confiabilidade-persistencia-local.md) antes de reavaliar o aceite. A contribuição simulada está planejada na Tarefa 005, e a revisão integrada na 006; ambas dependem de revisão/liberação da etapa anterior.

@@ -182,6 +182,10 @@ Limitações ou bloqueios
 
 ## 13. Próximo passo técnico
 
-O protótipo visual está implementado, com verificações técnicas aprovadas e teste geral no Expo relatado pelo responsável, que autorizou a publicação no GitHub. A tarefa `docs/tasks/001-fundacao-layout-navegavel.md` registra o aceite geral e os critérios manuais ainda sem evidências individuais. Consulte o README para o estado atual e os comandos disponíveis. A próxima implementação exige uma nova tarefa delimitada; não inicie persistência, backend ou pagamentos automaticamente.
+A Tarefa 007 — Identidade, acesso e consolidação da entrega final foi **entregue em revisão**. Implementados: login demonstrativo nominal (16 credenciais, senha `0000`, prefixo `v-`), autoria individual (`Nome (Perfil)`), dados enriquecidos (6 procedimentos, 5 projetos, equipe Sobre), painel (Visão geral), busca/filtro combinados, navegação integrada (procedimentos relacionados, listas atualizadas, `TransitionHistorySection`), correções de contribuição (navegação explícita, reset, proteção duplicação) e persistência (validação completa, migração idempotente `dataVersion=2`, retry real), acabamento visual (avatares, hierarquia, contraste, acessibilidade), documentação (`docs/decisions/002`, `docs/demo/roteiro`, `docs/reviews/003`, README, AGENTS).
+
+Verificações técnicas: tipos, lint, **44 testes** (16 playbook + 19 transições + 3 integridade + 6 doações), Expo Doctor, dependências, exportações Android/iOS aprovados. Roteiro e revisão final atualizados com reconciliação de evidências 004–006. Testes manuais em dispositivo/simulador (critérios A22, A23) e aceite final do responsável **pendentes**. Backend não exigido; rubrica detalhada e plataforma de demonstração a confirmar.
+
+**Próximo passo:** validação manual em dispositivo/simulador pelo responsável e registro de aceite. Não iniciar automaticamente nova tarefa. Consulte o README para estado e comandos atuais.
 
 O nome AbrigoAção e a direção visual branca e azul foram aprovados pelo responsável. Mantenha os tokens compartilhados e a separação entre as rotas públicas e os caminhos internos com prefixo `member/`.

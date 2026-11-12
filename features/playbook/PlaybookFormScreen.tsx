@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { View, Text, ActivityIndicator } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { ScreenContainer } from '@/components/ScreenContainer';
@@ -10,7 +10,7 @@ import { MissingRecord } from '@/components/MissingRecord';
 import { useDiscardDraft } from '@/hooks/useDiscardDraft';
 import { colors, spacing, typography } from '@/theme';
 import { categories, findEntry, createEntry, updateEntry, type PlaybookEntry, type Category } from '@/services/playbook';
-import { useDemoAccess, usePermissions } from '@/features/access/DemoAccess';
+import { useAuth, usePermissions } from '@/features/access/AuthContext';
 
 export default function PlaybookFormScreen({ create = false }: { create?: boolean }) {
   const permissions = usePermissions();
@@ -19,32 +19,37 @@ export default function PlaybookFormScreen({ create = false }: { create?: boolea
   const [loading, setLoading] = useState(!create);
   const [error, setError] = useState<string | null>(null);
 
+  const load = useCallback(async () => {
+    if (create) return;
+    try {
+      setLoading(true);
+      const data = await findEntry(id);
+      setEntry(data);
+      setError(null);
+    } catch (e) {
+      const message = e instanceof Error ? e.message : 'Erro ao carregar o conteúdo para edição.';
+      setError(message);
+    } finally {
+      setLoading(false);
+    }
+  }, [create, id]);
+
   useEffect(() => {
     if (!permissions.canWritePlaybook) {
       router.replace('/member/playbook');
       return;
     }
-    if (create) return;
     let mounted = true;
-    async function load() {
-      try {
-        setLoading(true);
-        const data = await findEntry(id);
-        if (mounted) {
-          setEntry(data);
-          setError(null);
-        }
-      } catch {
-        if (mounted) setError('Erro ao carregar o conteúdo para edição.');
-      } finally {
-        if (mounted) setLoading(false);
-      }
-    }
-    load();
+    (async () => {
+      await load();
+      if (!mounted) return;
+    })();
     return () => { mounted = false; };
-  }, [create, id, permissions.canWritePlaybook]);
+  }, [load, permissions.canWritePlaybook]);
 
-  const retry = () => { setLoading(true); setError(null); };
+  const retry = () => {
+    load();
+  };
 
   if (loading) {
     return <ScreenContainer>
@@ -70,7 +75,7 @@ export default function PlaybookFormScreen({ create = false }: { create?: boolea
 }
 
 function PlaybookForm({ entry, create }: { entry?: PlaybookEntry; create: boolean }) {
-  const { profile } = useDemoAccess();
+  const { session } = useAuth();
   const initialTitle = entry?.title ?? '';
   const initialContent = entry?.versions[0]?.content ?? '';
   const initialCategory = entry?.category ?? categories[0];
@@ -90,17 +95,19 @@ function PlaybookForm({ entry, create }: { entry?: PlaybookEntry; create: boolea
 
   async function handleSave() {
     if (!isValid || saving) return;
-    if (!profile) {
-      setSaveError('Perfil não selecionado. Volte e escolha um perfil.');
+    if (!session) {
+      setSaveError('Sessão não encontrada. Volte e entre novamente.');
       return;
     }
     setSaving(true);
     setSaveError(null);
     try {
+      const profile = session.profile;
+      const personName = session.person.displayName;
       if (create) {
-        await createEntry(title.trim(), category, content.trim(), summary.trim() || 'Criação inicial.', profile);
+        await createEntry(title.trim(), category, content.trim(), summary.trim() || 'Criação inicial.', profile, personName);
       } else if (entry) {
-        const updated = await updateEntry(entry.id, title.trim(), category, content.trim(), summary.trim() || 'Atualização.', profile);
+        const updated = await updateEntry(entry.id, title.trim(), category, content.trim(), summary.trim() || 'Atualização.', profile, personName);
         if (!updated) {
           setSaveError('Conteúdo não encontrado. Tente novamente.');
           setSaving(false);

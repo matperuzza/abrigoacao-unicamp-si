@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
 import { ScreenContainer } from '@/components/ScreenContainer';
 import { Header } from '@/components/Header';
@@ -87,31 +87,34 @@ export function TransitionHistoryScreen() {
   const [error, setError] = useState<string | null>(null);
   const [projectTitle, setProjectTitle] = useState('');
 
-  useEffect(() => {
-    let mounted = true;
-    async function load() {
-      try {
-        setLoading(true);
-        const project = findProject(id);
-        if (mounted) {
-          setProjectTitle(project?.title ?? '');
-        }
-        const data = await findProjectTransitions(id);
-        if (mounted) {
-          setRecords(data);
-          setError(null);
-        }
-      } catch {
-        if (mounted) setError('Erro ao carregar o histórico de transições.');
-      } finally {
-        if (mounted) setLoading(false);
-      }
+  const load = useCallback(async () => {
+    try {
+      setLoading(true);
+      const project = findProject(id);
+      setProjectTitle(project?.title ?? '');
+      const data = await findProjectTransitions(id);
+      setRecords(data);
+      setError(null);
+    } catch (e) {
+      const message = e instanceof Error ? e.message : 'Erro ao carregar o histórico de transições.';
+      setError(message);
+    } finally {
+      setLoading(false);
     }
-    load();
-    return () => { mounted = false; };
   }, [id]);
 
-  const retry = () => { setLoading(true); setError(null); };
+  useEffect(() => {
+    let mounted = true;
+    (async () => {
+      await load();
+      if (!mounted) return;
+    })();
+    return () => { mounted = false; };
+  }, [load]);
+
+  const retry = () => {
+    load();
+  };
 
   if (loading) return <LoadingScreen />;
   if (error) return <ErrorScreen message={error} onRetry={retry} />;

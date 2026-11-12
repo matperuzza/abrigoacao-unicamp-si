@@ -1,4 +1,4 @@
-import { View, TextInput, Text, StyleSheet } from 'react-native';
+import { View, TextInput, Text, StyleSheet, type ViewStyle } from 'react-native';
 import { colors, spacing, typography, radius } from '@/theme';
 
 type Props = {
@@ -11,9 +11,13 @@ type Props = {
   error?: string;
   disabled?: boolean;
   accessibilityLabel?: string;
+  autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters';
+  autoCorrect?: boolean;
+  secureTextEntry?: boolean;
+  style?: ViewStyle;
 };
 
-export function Input({ label, value, onChangeText, placeholder, multiline, numberOfLines, error, disabled, accessibilityLabel }: Props) {
+export function Input({ label, value, onChangeText, placeholder, multiline, numberOfLines, error, disabled, accessibilityLabel, autoCapitalize, autoCorrect, secureTextEntry, style }: Props) {
   return (
     <View style={styles.container}>
       <Text style={styles.label}>{label}</Text>
@@ -21,8 +25,9 @@ export function Input({ label, value, onChangeText, placeholder, multiline, numb
         style={[
           styles.input,
           multiline && styles.multiline,
-           !!error && styles.inputError,
+          !!error && styles.inputError,
           disabled && styles.inputDisabled,
+          style,
         ]}
         value={value}
         onChangeText={onChangeText}
@@ -32,6 +37,9 @@ export function Input({ label, value, onChangeText, placeholder, multiline, numb
         numberOfLines={numberOfLines}
         editable={!disabled}
         accessibilityLabel={accessibilityLabel ?? label}
+        autoCapitalize={autoCapitalize}
+        autoCorrect={autoCorrect}
+        secureTextEntry={secureTextEntry}
       />
       {error && <Text style={styles.errorText}>{error}</Text>}
     </View>

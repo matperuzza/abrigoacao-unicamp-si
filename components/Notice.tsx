@@ -2,7 +2,7 @@ import { Text, StyleSheet } from 'react-native';
 import { Card } from './Card';
 import { colors, typography } from '@/theme';
 
-export function Notice({ children }: { children: string }) {
+export function Notice({ children }: { children: React.ReactNode }) {
   return <Card style={styles.card}><Text style={styles.text}>{children}</Text></Card>;
 }
 
