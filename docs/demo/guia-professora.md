@@ -6,6 +6,7 @@ O **AbrigoAção** é um protótipo acadêmico de uma ONG fictícia voltada à c
 
 ## Índice
 
+- [Acesso pelo link no navegador](#acesso-pelo-link-no-navegador)
 - [1. Como abrir o aplicativo no celular](#1-como-abrir-o-aplicativo-no-celular)
 - [2. Como entrar com o acesso da professora](#2-como-entrar-com-o-acesso-da-professora)
 - [3. Funcionalidades da área pública](#3-funcionalidades-da-área-pública)
@@ -13,6 +14,21 @@ O **AbrigoAção** é um protótipo acadêmico de uma ONG fictícia voltada à c
 - [5. Sequência sugerida para avaliação](#5-sequência-sugerida-para-avaliação)
 - [6. Dúvidas e dificuldades comuns](#6-dúvidas-e-dificuldades-comuns)
 - [7. O que considerar nesta versão](#7-o-que-considerar-nesta-versão)
+
+## Acesso pelo link no navegador
+
+A versão web está preparada para hospedagem na **Vercel**. O endereço público ainda depende da conclusão do deploy; o grupo deve compartilhar o link final após confirmar que ele abre corretamente.
+
+Quando receber o link:
+
+1. Abra o endereço no navegador do computador ou do celular.
+2. Aguarde aparecer **AbrigoAção**. Para esse acesso, não é necessário baixar o repositório, instalar Node.js ou usar Expo Go.
+3. Explore a área pública ou toque em **Área dos membros** para entrar com `Betania` e senha `0000`, conforme a seção 2.
+4. Utilize as funcionalidades descritas nas seções 3 e 4; no computador, clique nos mesmos botões indicados para toque no celular.
+
+Na web, os registros salvos ficam apenas naquele navegador e endereço do aplicativo. Ao atualizar a página, entre novamente; os conteúdos e as transições salvos permanecem disponíveis no mesmo navegador. Limpar os dados do site ou encerrar uma sessão de navegação privada pode remover esses registros. Alterações feitas no Expo Go não aparecem automaticamente na versão web.
+
+O passo a passo abaixo continua disponível para quem quiser executar a versão mobile pelo **Expo Go**.
 
 ## 1. Como abrir o aplicativo no celular
 
@@ -218,7 +234,7 @@ Entre com `Betania` e senha `0000` antes de seguir os passos desta seção.
 ### Visão geral — acompanhar informações e acessar atalhos
 
 1. Consulte seu nome e perfil no início do painel.
-2. Em **Seus projetos**, veja os projetos atribuídos à pessoa conectada. Para Betania, a mensagem **Nenhum projeto atribuído** é esperada; toque em **Ver projetos** para consultar a lista geral.
+2. Em **Seus projetos**, veja os projetos atribuídos à pessoa conectada. Para Betania, o exemplo atual é **Reforma Moradia Acolhedora**. Use **Ver todos** para consultar a lista geral; quando a pessoa não tiver projeto atribuído, o painel oferece **Ver projetos**.
 3. Em **Procedimentos recentes**, toque em um item para abrir o conteúdo do playbook.
 4. Em **Transições recentes**, toque em um registro para abrir o projeto correspondente.
 5. Use os atalhos **Novo conteúdo**, **Guia do voluntário** e **Playbook** para acessar essas funções.
@@ -340,7 +356,8 @@ O botão **Voltar à área pública** permite retomar a apresentação. Para enc
 - As contribuições são **simulações**, sem movimentação financeira.
 - O login é demonstrativo; não há autenticação real nem colaboração por servidor.
 - Conteúdos e transições salvos permanecem **somente no aparelho utilizado**, inclusive ao trocar de conta. Desinstalar ou limpar os dados do aplicativo pode remover esses registros.
+- Na versão web, a persistência também depende do **navegador e do endereço acessado**; os dados não são sincronizados entre o link web, outros domínios e o Expo Go.
 - Rascunhos não salvos e a confirmação da simulação não têm a mesma persistência dos conteúdos salvos.
-- Este guia foi conferido com o código atual. A validação manual completa em dispositivo e o aceite final permanecem pendentes, conforme o [estado do projeto](../../README.md#estado-do-projeto).
+- Este guia foi conferido com o código atual e os fluxos web essenciais foram exercitados por automação em Chromium local. A publicação no domínio final, a validação manual completa em dispositivo e o aceite final permanecem pendentes, conforme o [estado do projeto](../../README.md#estado-do-projeto).
 
 Para informações técnicas e verificações registradas, consulte o [README](../../README.md). O [roteiro técnico de demonstração](roteiro-demonstracao.md) reúne os cenários detalhados de revisão.

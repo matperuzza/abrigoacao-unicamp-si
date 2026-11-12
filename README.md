@@ -1,6 +1,6 @@
 # AbrigoAção
 
-Aplicativo mobile acadêmico para integrar a gestão do conhecimento e a sustentabilidade financeira de uma ONG fictícia voltada a projetos de construção e reforma de moradias.
+Aplicativo acadêmico mobile, com versão web para demonstração, para integrar a gestão do conhecimento e a sustentabilidade financeira de uma ONG fictícia voltada a projetos de construção e reforma de moradias.
 
 Projeto desenvolvido para uma atividade da disciplina de Sistemas de Informação (SI), do curso de Administração da Unicamp. O nome aprovado é **AbrigoAção**, com identidade visual branca e azul institucional.
 
@@ -8,20 +8,22 @@ Projeto desenvolvido para uma atividade da disciplina de Sistemas de Informaçã
 
 **[Abrir o guia passo a passo de acesso e uso do aplicativo](docs/demo/guia-professora.md)**
 
-O guia explica como abrir o aplicativo pelo Expo Go, entrar na área dos membros e utilizar cada funcionalidade, com exemplos para avaliação.
+O guia explica o acesso pelo navegador após a publicação ou pelo Expo Go, a entrada na área dos membros e o uso de cada funcionalidade, com exemplos para avaliação.
 
 | Acesso demonstrativo da professora | Login | Senha |
 | --- | --- | --- |
 | Coordenação | `Betania` | `0000` |
 | Voluntário | `v-Betania` | `0000` |
 
-A área pública pode ser explorada sem login. Para abrir o aplicativo no celular, é necessário iniciar o projeto no computador e escanear o QR code, conforme o guia. O GitHub contém o código e a documentação; não executa o aplicativo nesta página.
+A área pública pode ser explorada sem login. A versão web está preparada para publicação na Vercel; o link público ainda depende de um deploy aprovado. Pelo Expo Go, é necessário iniciar o projeto no computador e escanear o QR code, conforme o guia. O GitHub contém o código e a documentação; não executa o aplicativo nesta página.
 
 ## Estado do projeto
 
 **Estado atual:** Tarefa 007 — Identidade, acesso e consolidação da entrega final **entregue em revisão**. Login demonstrativo nominal (16 acessos), autoria individual, equipe, dados enriquecidos, painel, navegação integrada, acabamento e correções implementados. Preservação dos dados existentes e reconciliação das evidências das entregas anteriores concluídas. 44 testes automatizados (16 playbook + 19 transições + 3 integridade + 6 doações). Verificações técnicas (tipos, lint, Expo Doctor, exportações) aprovadas. Testes manuais em dispositivo/simulador e aceite final do responsável pendentes. Backend não exigido.
 
 **Próximo passo:** validação manual em dispositivo (critérios A22, A23) e registro de aceite pelo responsável.
+
+**Publicação web (ajuste posterior à Tarefa 007):** lockfile corrigido, instalação limpa validada, dependências web compatíveis com SDK 58, exportação SPA e configuração Vercel implementadas. Fluxos essenciais verificados com Chromium automatizado sobre o build de produção local; publicação na Vercel e verificação do domínio final pendentes. Evidências na [Revisão 004](docs/reviews/004-publicacao-web-vercel.md).
 
 ## Contexto e objetivo
 
@@ -377,6 +379,38 @@ Com emulador/simulador instalado:
 npm run android
 npm run ios
 ```
+
+### Executar no navegador e publicar na Vercel
+
+Para desenvolvimento web local:
+
+```bash
+npm run web
+```
+
+Para gerar os arquivos de produção em `dist/`:
+
+```bash
+npm run build:web
+```
+
+O projeto usa Metro e `web.output: "single"` (SPA). O arquivo `vercel.json` registra:
+
+| Configuração | Valor |
+| --- | --- |
+| Application/Framework Preset | Other |
+| Install Command | `npm ci` |
+| Build Command | `npm run build:web` (equivalente a `npx expo export --platform web`) |
+| Output Directory | `dist` |
+| Root Directory | Raiz do repositório |
+| Node.js | `24.x`, declarado em `package.json` |
+| Environment Variables | Nenhuma necessária para o protótipo |
+
+O rewrite entrega `index.html` para rotas como `/projects/1` e `/member/enter`, permitindo acesso direto e atualização da página. Arquivos existentes de JavaScript, fontes e imagens continuam sendo servidos normalmente pela Vercel.
+
+Após enviar uma atualização à branch `main`, use o deploy do **commit mais recente**. Se a integração Git estiver ativa, a Vercel deverá iniciar o novo deploy; confirme o commit na aba Deployments. Repetir um deploy antigo mantém o lockfile antigo e o erro anterior. Se houver overrides no painel, mantenha os valores da tabela.
+
+Na web, conteúdos e transições ficam no armazenamento do próprio navegador e domínio; não são compartilhados com outro navegador, dispositivo, domínio de preview ou Expo Go. Atualizar a página encerra o login demonstrativo em memória, mas preserva os registros salvos. Detalhes da escolha estão na [Decisão 003](docs/decisions/003-publicacao-web-vercel.md).
 
 Verificações:
 

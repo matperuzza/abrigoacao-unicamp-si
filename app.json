@@ -15,6 +15,11 @@
     "android": {
       "package": "com.abrigoacao.app"
     },
+    "web": {
+      "bundler": "metro",
+      "output": "single",
+      "name": "AbrigoAção"
+    },
     "plugins": [
       "expo-router",
       "expo-font",
