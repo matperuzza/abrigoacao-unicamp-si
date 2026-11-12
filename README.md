@@ -4,6 +4,21 @@ Aplicativo mobile acadêmico para integrar a gestão do conhecimento e a sustent
 
 Projeto desenvolvido para uma atividade da disciplina de Sistemas de Informação (SI), do curso de Administração da Unicamp. O nome aprovado é **AbrigoAção**, com identidade visual branca e azul institucional.
 
+## Para a professora: como acessar e avaliar
+
+**[Abrir o guia passo a passo de acesso e uso do aplicativo](docs/demo/guia-professora.md)**
+
+O guia explica como abrir o aplicativo pelo Expo Go, entrar na área dos membros e utilizar cada funcionalidade, com exemplos para avaliação.
+
+| Acesso demonstrativo da professora | Login | Senha |
+| --- | --- | --- |
+| Coordenação | `Betania` | `0000` |
+| Voluntário | `v-Betania` | `0000` |
+
+A área pública pode ser explorada sem login. Para abrir o aplicativo no celular, é necessário iniciar o projeto no computador e escanear o QR code, conforme o guia. O GitHub contém o código e a documentação; não executa o aplicativo nesta página.
+
+## Estado do projeto
+
 **Estado atual:** Tarefa 007 — Identidade, acesso e consolidação da entrega final **entregue em revisão**. Login demonstrativo nominal (16 acessos), autoria individual, equipe, dados enriquecidos, painel, navegação integrada, acabamento e correções implementados. Preservação dos dados existentes e reconciliação das evidências das entregas anteriores concluídas. 44 testes automatizados (16 playbook + 19 transições + 3 integridade + 6 doações). Verificações técnicas (tipos, lint, Expo Doctor, exportações) aprovadas. Testes manuais em dispositivo/simulador e aceite final do responsável pendentes. Backend não exigido.
 
 **Próximo passo:** validação manual em dispositivo (critérios A22, A23) e registro de aceite pelo responsável.

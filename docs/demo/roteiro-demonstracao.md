@@ -1,5 +1,7 @@
 # Roteiro de Demonstração — AbrigoAção (Tarefa 007)
 
+Para instruções de acesso e uso voltadas à avaliação, consulte o [Guia da professora](guia-professora.md).
+
 **Versão:** 2.0  
 **Data:** 2026-11-12  
 **Base Git:** `HEAD` (Tarefa 007 — Identidade, acesso e consolidação da entrega final)  
@@ -37,17 +39,17 @@
 
 | Pessoa | Login Coordenação | Login Voluntário | Senha |
 |--------|-------------------|------------------|-------|
-| Filipe Angi | `Filipe Angi` | `v-Filipe Angi` | `0000` |
-| João Tamosaitis | `João Tamosaitis` | `v-João Tamosaitis` | `0000` |
-| André Luis | `André Luis` | `v-André Luis` | `0000` |
-| Giovana Carvalho | `Giovana Carvalho` | `v-Giovana Carvalho` | `0000` |
-| Isabela Patino | `Isabela Patino` | `v-Isabela Patino` | `0000` |
-| Lucas Blanes | `Lucas Blanes` | `v-Lucas Blanes` | `0000` |
-| Matheus Peruzza | `Matheus Peruzza` | `v-Matheus Peruzza` | `0000` |
+| Filipe Angi | `Filipe` | `v-Filipe` | `0000` |
+| João Tamosaitis | `João` | `v-João` | `0000` |
+| André Luis | `André` | `v-André` | `0000` |
+| Giovana Carvalho | `Giovana` | `v-Giovana` | `0000` |
+| Isabela Patino | `Isabela` | `v-Isabela` | `0000` |
+| Lucas Blanes | `Lucas` | `v-Lucas` | `0000` |
+| Matheus Peruzza | `Matheus` | `v-Matheus` | `0000` |
 | Betania | `Betania` | `v-Betania` | `0000` |
 
 **Regras de normalização:** apara espaços, ignora caixa e acentos, colapsa espaços múltiplos.  
-**Exemplos válidos:** `v-matheus peruzza`, `V-MATHEUS PERUZZA`, ` v-matheus  peruzza ` → todos entram como `Matheus Peruzza` (Voluntário).
+**Exemplos válidos:** `v-matheus`, `V-MATHEUS`, ` v-matheus ` → todos entram como `Matheus Peruzza` (Voluntário). O login usa somente o primeiro nome; nomes completos não são credenciais válidas.
 
 ---
 
@@ -83,7 +85,7 @@
 | Passo | Ação | Resultado Esperado |
 |-------|------|-------------------|
 | 1 | Na área pública, tocar **Área dos membros** | Tela de login com orientação e credenciais |
-| 2 | Entrar como `v-Matheus Peruzza` / `0000` | Redireciona para `/member/(tabs)/overview`; saudação "Matheus Peruzza · Voluntário" |
+| 2 | Entrar como `v-Matheus` / `0000` | Redireciona para `/member/(tabs)/overview`; saudação "Matheus Peruzza · Voluntário" |
 | 3 | Navegar para aba **Guia** | Guia atualizado (sem registro semanal) com botões para playbook |
 | 4 | Tocar **Playbook → Boas-vindas** | Detalhe com autor `Filipe Angi (Coordenação)`, data, versão 2 |
 | 5 | Navegar para aba **Playbook** | Lista com 6 procedimentos enriquecidos; busca e filtro funcionam |
@@ -107,7 +109,7 @@
 | 4 | Abrir histórico → versão nova (v3) | Resumo, autor `Matheus Peruzza (Voluntário)`, data atual |
 | 5 | Abrir versão anterior (v2) | Conteúdo intacto, autor `Filipe Angi (Coordenação)` preservado |
 | 6 | Fechar app (matar processo) e reabrir | Dados persistem; edição recuperada |
-| 7 | **Sair** da conta → entrar como `Filipe Angi` / `0000` (Coordenação) | Dados preservados; autoria da edição anterior visível no histórico |
+| 7 | **Sair** da conta → entrar como `Filipe` / `0000` (Coordenação) | Dados preservados; autoria da edição anterior visível no histórico |
 | 8 | Editar mesmo procedimento como Coordenação | Nova versão v4 com autor `Filipe Angi (Coordenação)` |
 | 9 | Verificar que versões v1–v3 permanecem intactas | Histórico completo preservado |
 
@@ -127,7 +129,7 @@
 | 5 | Tocar **Salvar** | Redireciona para detalhe; histórico atualizado com badge "Mais recente" |
 | 6 | Registrar segunda transição no mesmo projeto | Ambas listadas, isoladas de outros projetos, ordenadas por data |
 | 7 | Fechar/reabrir app | Históricos preservados |
-| 8 | Trocar para `v-João Tamosaitis` / `0000` | Consulta transição anterior; autoria `Filipe Angi (Coordenação)` visível |
+| 8 | Trocar para `v-João` / `0000` | Consulta transição anterior; autoria `Filipe Angi (Coordenação)` visível |
 | 9 | Registrar nova transição como Voluntário | Nova autoria `João Tamosaitis (Voluntário)` |
 
 **Evidências automatizadas:** 19 testes de transições (validação, múltiplas, ordenação, isolamento, falhas, persistência, migração).
@@ -139,7 +141,7 @@
 
 | Passo | Ação | Resultado Esperado |
 |-------|------|-------------------|
-| 1 | Entrar como `v-Giovana Carvalho` / `0000` | Saudação nominal; perfil Voluntário |
+| 1 | Entrar como `v-Giovana` / `0000` | Saudação nominal; perfil Voluntário |
 | 2 | Ver seção **Seus projetos** | Projetos onde `Giovana Carvalho` é responsável (ex: "Jardim Solidário") |
 | 3 | Ver **Procedimentos recentes** | 5 últimos procedimentos atualizados (ordenados por data) |
 | 4 | Ver **Transições recentes** | 5 últimas transições de todos os projetos |
